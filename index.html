@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness | Full System</title>
+    <title>SmartQueue Fitness | Unified System</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -11,7 +11,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
         body { background-color: white; color: var(--primary); scroll-behavior: smooth; }
 
-        /* --- UI Helpers --- */
         .hidden { display: none !important; }
         .btn-main { background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
         .btn-main:hover { background: var(--accent); }
@@ -22,35 +21,23 @@
         .nav-links { display: flex; gap: 2rem; list-style: none; }
         .nav-links a { text-decoration: none; color: #334155; font-size: 0.95rem; cursor: pointer; }
 
-        /* --- Hero --- */
+        /* --- Hero & Sections --- */
         .hero { height: 450px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 8%; color: white; }
-        .hero h1 { font-size: 2.8rem; line-height: 1.2; }
-
-        /* --- Sections --- */
         .section { padding: 80px 8%; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .card { background: #f8fafc; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; text-align: center; padding-bottom: 25px; position: relative; }
         .card img { width: 100%; height: 220px; object-fit: cover; }
         .badge { position: absolute; top: 15px; left: 15px; background: var(--success); color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; }
 
-        /* --- Testimonials --- */
+        /* --- Testimonials & Contact --- */
         .testimonials { background: white; padding: 80px 8%; text-align: center; }
-        .testi-card { padding: 30px; border: 1px solid #eee; border-radius: 20px; text-align: left; }
-        .user-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-        .user-meta img { width: 50px; height: 50px; border-radius: 50%; }
-
-        /* --- Contact Us (ตามรูปที่คุณต้องการ) --- */
+        .testi-card { padding: 30px; border: 1px solid #eee; border-radius: 20px; text-align: left; background: #fff; }
         .contact-box { background: white; padding: 60px 8%; border-top: 1px solid #eee; }
         .contact-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-size: 1.2rem; }
-        .contact-item i { font-size: 1.5rem; }
+        .newsletter { background: var(--primary); color: white; padding: 60px 8%; text-align: center; border-radius: 30px; margin: 40px 8%; }
 
-        /* --- Footer --- */
-        .newsletter { background: var(--primary); color: white; padding: 60px 8%; text-align: center; border-radius: 30px; margin: 0 8% 40px; }
-        footer { padding: 60px 8% 20px; border-top: 1px solid #eee; background: #fff; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
-
-        /* --- Dashboard Sidebar --- */
-        #dashboardLayout { display: none; min-height: 100vh; background: #f1f5f9; }
+        /* --- Dashboard Layout --- */
+        #dashboardLayout { min-height: 100vh; background: #f1f5f9; display: flex; }
         .sidebar { width: 280px; background: var(--primary); color: white; padding: 40px 20px; position: fixed; height: 100vh; }
         .main-content { margin-left: 280px; padding: 40px; width: calc(100% - 280px); }
         .side-menu { list-style: none; margin-top: 50px; }
@@ -68,11 +55,12 @@
 
 <div id="landingPage">
     <nav>
-        <div class="logo" onclick="location.reload()">💪 SmartQueue</div>
+        <div class="logo" onclick="toggleView('landing')">💪 SmartQueue</div>
         <ul class="nav-links">
             <li><a href="#machines">เครื่องเล่น</a></li>
             <li><a href="#reviews">รีวิว</a></li>
             <li><a href="#contact">ติดต่อเรา</a></li>
+            <li id="backToDashBtn" class="hidden"><a onclick="toggleView('dashboard')" style="color:var(--accent); font-weight:600;">กลับไป Dashboard</a></li>
         </ul>
         <div id="authArea">
             <button class="btn-main" onclick="openModal('loginModal')">Sign In</button>
@@ -90,13 +78,13 @@
                 <span class="badge">Available</span>
                 <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500">
                 <h3 style="margin-top:15px;">Treadmill Elite-X</h3>
-                <button class="btn-main" style="margin-top:15px; width:80%;" onclick="openModal('loginModal')">จองตอนนี้</button>
+                <button class="btn-main" style="margin-top:15px; width:80%;" onclick="handleQuickBook()">จองตอนนี้</button>
             </div>
             <div class="card">
                 <span class="badge">Available</span>
                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500">
                 <h3 style="margin-top:15px;">Smith Machine</h3>
-                <button class="btn-main" style="margin-top:15px; width:80%;" onclick="openModal('loginModal')">จองตอนนี้</button>
+                <button class="btn-main" style="margin-top:15px; width:80%;" onclick="handleQuickBook()">จองตอนนี้</button>
             </div>
         </div>
     </div>
@@ -105,29 +93,10 @@
         <h2>What Our Guests Say</h2>
         <div class="grid" style="margin-top:40px;">
             <div class="testi-card">
-                <div class="user-meta">
-                    <img src="https://i.pravatar.cc/150?u=1">
-                    <div><strong>Emma Rodriguez</strong><br><small>Bangkok</small></div>
-                </div>
-                <div style="color:#f59e0b; margin-bottom:10px;">★★★★★</div>
+                <div class="user-meta"><img src="https://i.pravatar.cc/150?u=1"><div><strong>Emma Rodriguez</strong></div></div>
                 <p>"ระบบจองคิวใช้งานง่ายมาก ไม่ต้องยืนรอให้เสียเวลาเลยค่ะ"</p>
             </div>
-            <div class="testi-card">
-                <div class="user-meta">
-                    <img src="https://i.pravatar.cc/150?u=2">
-                    <div><strong>Liam Johnson</strong><br><small>Nonthaburi</small></div>
-                </div>
-                <div style="color:#f59e0b; margin-bottom:10px;">★★★★☆</div>
-                <p>"หน้าตาเว็บสวยงาม ใช้งานผ่านมือถือสะดวกมากครับ"</p>
-            </div>
         </div>
-    </div>
-
-    <div class="newsletter">
-        <h2>Stay Inspired</h2>
-        <p style="margin-bottom:20px; opacity:0.8;">รับข่าวสารและโปรโมชั่นพิเศษก่อนใคร</p>
-        <input type="email" placeholder="Enter your email" style="padding:12px; border-radius:5px; border:none; width:250px;">
-        <button class="btn-main" style="background:white; color:black; margin-left:10px;">Subscribe →</button>
     </div>
 
     <div class="contact-box" id="contact">
@@ -135,25 +104,17 @@
         <div class="contact-item"><i class="fab fa-facebook" style="color:#1877F2;"></i> <strong>Facebook:</strong> SmartQueueFN</div>
         <div class="contact-item"><i class="fas fa-phone" style="color:#22c55e;"></i> <strong>Tel:</strong> 0890912425</div>
     </div>
-
-    <footer>
-        <div class="footer-grid">
-            <div><h3>💪 SmartQueue</h3><p style="color:var(--gray); font-size:0.9rem;">ระบบจัดการคิวฟิตเนสอัจฉริยะ</p></div>
-            <div><h4>COMPANY</h4><p style="font-size:0.8rem; color:var(--gray);">About / Blog / Careers</p></div>
-            <div><h4>SUPPORT</h4><p style="font-size:0.8rem; color:var(--gray);">Help / Contact / Safety</p></div>
-            <div><h4>SOCIAL</h4><div style="font-size:1.2rem; display:flex; gap:10px;"><i class="fab fa-facebook"></i><i class="fab fa-instagram"></i></div></div>
-        </div>
-    </footer>
 </div>
 
-<div id="dashboardLayout">
+<div id="dashboardLayout" class="hidden">
     <div class="sidebar">
-        <h2 onclick="location.reload()" style="cursor:pointer;">💪 SmartQueue</h2>
+        <h2 onclick="toggleView('landing')" style="cursor:pointer;">💪 SmartQueue</h2>
         <ul class="side-menu">
             <li class="active" onclick="showTab('main')"><i class="fas fa-chart-line"></i> Dashboard</li>
-            <li onclick="showTab('profile')"><i class="fas fa-user-circle"></i> ตั้งค่าบัญชีผู้ใช้</li>
+            <li onclick="showTab('profile')"><i class="fas fa-user-circle"></i> ตั้งค่าบัญชี</li>
             <li id="adminMenu" class="hidden" onclick="showTab('admin')"><i class="fas fa-user-shield"></i> เมนู Admin</li>
-            <li onclick="logout()" style="color:var(--danger); margin-top:50px;"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</li>
+            <li onclick="toggleView('landing')" style="border-top: 1px solid #334155; margin-top: 20px;"><i class="fas fa-home"></i> กลับหน้าแรกเว็บ</li>
+            <li onclick="logout()" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</li>
         </ul>
     </div>
     <div class="main-content">
@@ -161,24 +122,23 @@
             <h2 id="welcomeUser">ยินดีต้อนรับ</h2>
             <div class="grid" style="margin-top:30px;">
                 <div style="background:white; padding:30px; border-radius:15px; border-left:5px solid var(--accent);">
-                    <h4>คิวปัจจุบันของคุณ</h4>
-                    <div style="font-size:2.5rem; font-weight:700; color:var(--accent);">No Queue</div>
+                    <h4>สถานะการจอง</h4>
+                    <div style="font-size:2rem; font-weight:700; color:var(--accent);">ยังไม่มีคิว</div>
                 </div>
             </div>
         </div>
         <div id="tab-profile" class="tab-content hidden">
             <h2>ตั้งค่าบัญชีผู้ใช้</h2>
             <div style="background:white; padding:30px; border-radius:15px; max-width:500px; margin-top:20px;">
-                <label>ชื่อผู้ใช้งาน</label>
+                <label>ชื่อแสดงผล</label>
                 <input type="text" id="profileName" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
-                <button class="btn-main" onclick="alert('บันทึกสำเร็จ')">Save Changes</button>
+                <button class="btn-main" onclick="alert('บันทึกสำเร็จ')">บันทึกข้อมูล</button>
             </div>
         </div>
         <div id="tab-admin" class="tab-content hidden">
-            <h2>เมนูผู้ดูแลระบบ (Admin)</h2>
+            <h2>ระบบหลังบ้าน Admin</h2>
             <div class="grid" style="margin-top:20px;">
-                <div style="background:white; padding:20px; border-radius:15px;"><h4>จำนวนสมาชิก</h4><div style="font-size:2rem;">1,240</div></div>
-                <div style="background:white; padding:20px; border-radius:15px;"><h4>คิวรออยู่</h4><div style="font-size:2rem;">8</div></div>
+                <div style="background:white; padding:20px; border-radius:15px;"><h4>จำนวนผู้ใช้งาน</h4><div>1,240</div></div>
             </div>
         </div>
     </div>
@@ -187,10 +147,10 @@
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span style="position:absolute; right:20px; top:15px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
-        <h2 id="modalTitle">Sign in to SmartQueue</h2>
+        <h2 id="modalTitle">เข้าสู่ระบบ</h2>
         <div class="input-group">
-            <input type="text" id="userIn" placeholder="Username (admin เพื่อเข้าโหมดแอดมิน)">
-            <input type="password" id="passIn" placeholder="Password">
+            <input type="text" id="userIn" placeholder="ชื่อผู้ใช้งาน (admin เพื่อดูเมนูแอดมิน)">
+            <input type="password" id="passIn" placeholder="รหัสผ่าน">
         </div>
         <button class="btn-main" style="width:100%; margin-top:20px;" onclick="loginAction()">Continue</button>
         <p style="margin-top:20px; font-size:0.9rem;" id="switchText">ยังไม่มีบัญชี? <a href="#" onclick="toggleAuth(true)" style="color:var(--accent);">สมัครสมาชิก</a></p>
@@ -204,10 +164,24 @@
 
     function toggleAuth(status) {
         isSignUp = status;
-        document.getElementById('modalTitle').innerText = isSignUp ? "Create your account" : "Sign in to SmartQueue";
+        document.getElementById('modalTitle').innerText = isSignUp ? "สมัครสมาชิก" : "เข้าสู่ระบบ";
         document.getElementById('switchText').innerHTML = isSignUp ? 
             'มีบัญชีอยู่แล้ว? <a href="#" onclick="toggleAuth(false)" style="color:var(--accent);">เข้าสู่ระบบ</a>' :
             'ยังไม่มีบัญชี? <a href="#" onclick="toggleAuth(true)" style="color:var(--accent);">สมัครสมาชิก</a>';
+    }
+
+    // ฟังก์ชันสำคัญ: สลับหน้า Landing Page และ Dashboard
+    function toggleView(view) {
+        if (view === 'dashboard') {
+            const user = localStorage.getItem('fitness_user');
+            if (!user) { openModal('loginModal'); return; }
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('dashboardLayout').classList.remove('hidden');
+        } else {
+            document.getElementById('landingPage').classList.remove('hidden');
+            document.getElementById('dashboardLayout').classList.add('hidden');
+            checkLoginForLanding(); // เช็คเพื่อแสดงปุ่ม "กลับไป Dashboard"
+        }
     }
 
     function loginAction() {
@@ -219,20 +193,34 @@
         if(user.toLowerCase() === 'admin') localStorage.setItem('user_role', 'admin');
         else localStorage.setItem('user_role', 'user');
 
-        checkStatus();
+        updateUIAfterLogin();
+        toggleView('dashboard');
         closeModal('loginModal');
     }
 
-    function checkStatus() {
+    function updateUIAfterLogin() {
         const user = localStorage.getItem('fitness_user');
         const role = localStorage.getItem('user_role');
         if(user) {
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('dashboardLayout').style.display = 'flex';
+            document.getElementById('authArea').innerHTML = `<button class="btn-main" onclick="toggleView('dashboard')">ไปที่ Dashboard</button>`;
             document.getElementById('welcomeUser').innerText = `ยินดีต้อนรับคุณ ${user}`;
             document.getElementById('profileName').value = user;
             if(role === 'admin') document.getElementById('adminMenu').classList.remove('hidden');
+            document.getElementById('backToDashBtn').classList.remove('hidden');
         }
+    }
+
+    function checkLoginForLanding() {
+        const user = localStorage.getItem('fitness_user');
+        if(user) {
+            document.getElementById('authArea').innerHTML = `<button class="btn-main" onclick="toggleView('dashboard')">ไปที่ Dashboard</button>`;
+            document.getElementById('backToDashBtn').classList.remove('hidden');
+        }
+    }
+
+    function handleQuickBook() {
+        if (!localStorage.getItem('fitness_user')) { openModal('loginModal'); }
+        else { toggleView('dashboard'); }
     }
 
     function showTab(name) {
@@ -243,7 +231,11 @@
     }
 
     function logout() { localStorage.clear(); location.reload(); }
-    window.onload = checkStatus;
+
+    // เมื่อโหลดหน้าเว็บ: ให้แสดงหน้า Landing ก่อนเสมอ แต่เช็คสถานะ Login ไว้
+    window.onload = () => {
+        checkLoginForLanding();
+    };
 </script>
 
 </body>
