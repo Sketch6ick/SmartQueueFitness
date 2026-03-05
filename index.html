@@ -146,8 +146,12 @@
             localStorage.clear();
             window.location.href = 'login.html';
         }
+        if(user.role === 'admin') {
+    document.getElementById('user-info').innerHTML += `<a href="admin.html" class="ml-4 text-indigo-200 underline">ระบบแอดมิน</a>`;
+}
 
         fetchEquipments();
     </script>
 </body>
 </html>
+
