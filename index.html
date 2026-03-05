@@ -218,14 +218,11 @@
 </div>
 
 <script>
-    // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+<script type="module">
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyACz-K0qsn0odEFBQhexEzaSFKkmz1Q9e8",
   authDomain: "smartqueuefitness.firebaseapp.com",
@@ -235,6 +232,9 @@ const firebaseConfig = {
   appId: "1:616801173921:web:a63c5f98ecf524f65c8be0",
   measurementId: "G-SNX34B4C08"
 };
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -290,65 +290,83 @@ const analytics = getAnalytics(app);
         } catch(e) { alert("เกิดข้อผิดพลาด"); }
     }
 
-   async function bookEquipment(name){
+  window.bookEquipment = async function(name){
 
-    const user = sessionStorage.getItem('user');
+const user = sessionStorage.getItem('user');
 
-    if(!user){
-        return openModal('loginModal');
-    }
+if(!user){
+    openModal('loginModal');
+    return;
+}
 
-    const username = JSON.parse(user).username;
+const username = JSON.parse(user).username;
 
-    try{
+try{
 
-        await addDoc(collection(db,"queue"),{
+await addDoc(collection(db,"Queue"),{
+    username: username,
+    equipment: name,
+    time: Date.now()
+});
 
-            username: username,
-            equipment: name,
-            time: Date.now()
+alert("จองคิวสำเร็จ");
 
-        });
+loadQueue();
 
-        alert("เข้าคิวสำเร็จ");
+}catch(err){
 
-        loadQueue();
-
-    }catch(err){
-
-        alert("จองคิวไม่สำเร็จ");
-
-    }
+alert("จองคิวไม่สำเร็จ");
 
 }
-    async function loadQueue(){
 
-    const querySnapshot = await getDocs(collection(db,"queue"));
+}
 
-    const queue = [];
+}
+   async function loadQueue(){
 
-    querySnapshot.forEach((doc)=>{
+const q = query(collection(db,"Queue"), orderBy("time"));
 
-        queue.push(doc.data());
+const querySnapshot = await getDocs(q);
 
-    });
+const queue = [];
 
-    queue.sort((a,b)=>a.time-b.time);
+querySnapshot.forEach((doc)=>{
+    queue.push(doc.data());
+});
 
-    const user = sessionStorage.getItem('user');
+document.getElementById("currentQueue").innerText = queue.length;
 
-    if(!user) return;
+const user = sessionStorage.getItem('user');
 
-    const username = JSON.parse(user).username;
+if(!user) return;
 
-    const index = queue.findIndex(q=>q.username===username);
+const username = JSON.parse(user).username;
 
-    if(index!==-1){
+const index = queue.findIndex(q=>q.username===username);
 
-        document.getElementById("myQueue").innerText = index+1;
-        document.getElementById("peopleAhead").innerText = index;
+if(index!==-1){
 
-    }
+document.getElementById("myQueue").innerText = index+1;
+document.getElementById("peopleAhead").innerText = index;
+
+}
+
+}
+    window.onload = function(){
+
+const user = sessionStorage.getItem('user');
+
+if(user){
+
+document.getElementById('loggedOut').style.display = 'none';
+document.getElementById('loggedIn').style.display = 'block';
+document.getElementById('displayUser').innerText = JSON.parse(user).username;
+
+}
+
+loadQueue();
+
+}
 
 }
     window.onload = function(){
@@ -457,5 +475,6 @@ window.addEventListener("load", function(){
 </script>
 </body>
 </html>
+
 
 
