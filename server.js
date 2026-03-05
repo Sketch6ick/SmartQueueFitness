@@ -111,3 +111,18 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
+// เพิ่มส่วนนี้ใน server.js
+app.post('/api/register', async (req, res) => {
+    const { username, password, email } = req.body;
+    try {
+        await db.query(
+            'INSERT INTO users (username, password, email, role) VALUES ($1, $2, $3, $4)',
+            [username, password, email, 'member']
+        );
+        res.status(201).json({ message: 'สมัครสมาชิกสำเร็จ!' });
+    } catch (err) {
+        // ถ้าชื่อซ้ำ Postgres จะฟ้อง Error
+        res.status(400).json({ message: 'ชื่อผู้ใช้นี้มีคนใช้แล้ว' });
+    }
+});
+
