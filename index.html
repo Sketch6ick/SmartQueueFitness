@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness | ยกระดับการออกกำลังกายของคุณ</title>
+    <title>SmartQueue Fitness | สัมผัสประสบการณ์ยิมอัจฉริยะ</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- Root & Base --- */
         :root { --primary: #2563eb; --navy: #0f172a; --slate: #64748b; --light: #f8fafc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-        body { background-color: var(--light); color: var(--navy); overflow-x: hidden; }
+        body { background-color: var(--light); color: var(--navy); }
 
         /* --- Navigation --- */
         nav {
@@ -22,25 +21,22 @@
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a { text-decoration: none; color: var(--slate); font-weight: 400; transition: 0.3s; cursor: pointer; }
         .nav-links a.active { color: var(--primary); font-weight: 600; }
-        .auth-btns { display: flex; align-items: center; gap: 1rem; }
         .btn-signin { background: var(--navy); color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; }
 
         /* --- Hero Section (สไตล์ QuickStay) --- */
         .hero {
             height: 550px;
             background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
-                        url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1600');
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600');
             background-size: cover; background-position: center;
             display: flex; align-items: center; padding: 0 8%; color: white;
         }
         .hero-content h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
-        .hero-content p { font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.9; }
         .hero-search-bar { 
             background: white; padding: 10px; border-radius: 15px; display: flex; 
             max-width: 600px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
         }
-        .search-box { flex: 1; display: flex; align-items: center; padding: 0 20px; color: var(--navy); border-right: 1px solid #e2e8f0; }
-        .search-box i { color: var(--slate); margin-right: 15px; }
+        .search-box { flex: 1; display: flex; align-items: center; padding: 0 20px; color: var(--navy); }
         .btn-search { background: var(--navy); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; }
 
         /* --- Content Layout --- */
@@ -49,15 +45,12 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- Equipment Grid --- */
-        .section-header { text-align: center; margin-bottom: 50px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
         .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
         .card:hover { transform: translateY(-10px); }
         .card img { width: 100%; height: 230px; object-fit: cover; }
         .status-tag { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 6px 16px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
-        .card-content { padding: 1.5rem; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; }
-        .btn-book { background: var(--light); color: var(--navy); padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-book { width:100%; display:block; text-align:center; background: var(--light); color: var(--navy); padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; margin-top: 1rem; cursor: pointer; }
         .btn-book:hover { background: var(--navy); color: white; }
 
         /* --- Schedule Table --- */
@@ -65,30 +58,23 @@
         .sch-table { width: 100%; border-collapse: collapse; text-align: center; min-width: 700px; }
         .sch-table th { padding: 20px; background: var(--navy); color: white; }
         .sch-table td { padding: 15px; border: 1px solid #f1f5f9; }
-        .class-pill { padding: 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 500; }
-        .yoga { background: #dcfce7; color: #15803d; }
-        .hiit { background: #fee2e2; color: #b91c1c; }
-        .spin { background: #dbeafe; color: #1d4ed8; }
 
         /* --- Testimonials --- */
-        .testimonials { background: white; padding: 100px 8%; text-align: center; }
         .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 50px; }
-        .testi-card { background: var(--light); padding: 2.5rem; border-radius: 25px; text-align: left; }
-        .stars { color: #f59e0b; margin-bottom: 1rem; }
+        .testi-card { background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); }
+
+        /* --- Newsletter (Stay Inspired) --- */
+        .newsletter-box { background: var(--navy); color: white; padding: 60px; border-radius: 30px; text-align: center; margin: 40px 0; }
+        .btn-sub { background: white; color: var(--navy); padding: 12px 25px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; }
 
         /* --- Footer --- */
-        footer { background: white; padding: 80px 8% 30px; border-top: 1px solid #e2e8f0; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; margin-bottom: 50px; }
-        .newsletter-box { background: var(--navy); color: white; padding: 60px; border-radius: 30px; text-align: center; margin-bottom: 80px; }
-        .newsletter-input { display: flex; gap: 10px; max-width: 500px; margin: 25px auto 0; }
-        .newsletter-input input { flex: 1; padding: 15px; border-radius: 10px; border: none; }
-        .btn-sub { background: white; color: var(--navy); padding: 0 25px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; }
+        footer { background: white; padding: 80px 0 30px; border-top: 1px solid #e2e8f0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; }
 
         /* --- Modals --- */
         .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 3rem; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; position: relative; }
         .input-field { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #e2e8f0; background: var(--light); }
-        .btn-main { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 12px; font-weight: 600; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -98,107 +84,99 @@
     <ul class="nav-links">
         <li><a id="nav-eq" class="active" onclick="showPage('equipment')">หน้าแรก</a></li>
         <li><a id="nav-sch" onclick="showPage('schedule')">ตารางสอน</a></li>
-        <li><a onclick="alert('ข้อมูลติดต่อ: 02-xxx-xxxx')">ติดต่อเรา</a></li>
+        <li><a id="nav-con" onclick="scrollToContact()">ติดต่อเรา</a></li>
     </ul>
     <div class="auth-btns">
         <button class="btn-signin" id="userBtn" onclick="openLoginModal()">Sign In</button>
-        <a id="logoutBtn" onclick="handleLogout()" style="display:none; color: #ef4444; font-size: 0.9rem; cursor: pointer;">Logout</a>
+        <a id="logoutBtn" onclick="handleLogout()" style="display:none; color: #ef4444; margin-left: 15px; cursor: pointer;">Logout</a>
     </div>
 </nav>
 
 <div class="hero">
     <div class="hero-content">
-        <h1>จองฟิตเนสอัจฉริยะ<br>ให้คุณเล่นได้ ไม่ต้องรอ</h1>
-        <p>สัมผัสประสบการณ์การใช้งานยิมรูปแบบใหม่ จองคิวออนไลน์ผ่านมือถือได้ทุกที่</p>
+        <h1>จองฟิตเนสที่สมบูรณ์<br>แบบของคุณได้แล้ววันนี้</h1>
         <div class="hero-search-bar">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="ค้นหาเครื่องเล่น เช่น ลู่วิ่ง, เวท..." style="border:none; outline:none; width:100%;">
-            </div>
+            <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ค้นหาเครื่องเล่น..." style="border:none; outline:none; width:100%; margin-left:10px;"></div>
             <button class="btn-search" onclick="showPage('equipment')">ค้นหา</button>
         </div>
     </div>
 </div>
 
 <div id="equipment-page" class="page-content page-active">
-    <div class="section-header">
-        <h2>เครื่องเล่นที่พร้อมใช้งาน</h2>
-        <p>เลือกเครื่องเล่นที่คุณต้องการและกดจองเพื่อรับลำดับคิว</p>
-    </div>
-    <div class="grid" id="equipment-grid">
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div class="card-content"><h3>Treadmill Elite-X</h3><p>ลู่วิ่งไฟฟ้าแรงม้าสูง</p><div class="card-footer"><span>คิวที่ 0</span><a onclick="bookEquipment('Treadmill Elite-X')" class="btn-book">จองเครื่องนี้</a></div></div></div>
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div class="card-content"><h3>Smith Machine</h3><p>ส่วนอกและขาแบบเซฟตี้</p><div class="card-footer"><span>คิวที่ 0</span><a onclick="bookEquipment('Smith Machine')" class="btn-book">จองเครื่องนี้</a></div></div></div>
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1591940742878-13aba4b7a35e?w=600"><div class="card-content"><h3>Rowing Pro</h3><p>เครื่องพายเรือคาร์ดิโอ</p><div class="card-footer"><span>ว่าง</span><a onclick="bookEquipment('Rowing Pro')" class="btn-book">ใช้งาน</a></div></div></div>
-        <div class="card"><span class="status-tag" style="background:#f59e0b">In Use</span><img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600"><div class="card-content"><h3>Cable Station</h3><p>เคเบิลอเนกประสงค์</p><div class="card-footer"><span>คิวที่ 2</span><a onclick="bookEquipment('Cable Station')" class="btn-book">ต่อคิว</a></div></div></div>
+    <div class="grid">
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div class="card-content"><h3>Treadmill Elite</h3><a onclick="bookEquipment('Treadmill')" class="btn-book">จองเครื่องนี้</a></div></div>
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div class="card-content"><h3>Smith Machine</h3><a onclick="bookEquipment('Smith Machine')" class="btn-book">จองเครื่องนี้</a></div></div>
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1591940742878-13aba4b7a35e?w=500"><div class="card-content"><h3>Rowing Pro</h3><a onclick="bookEquipment('Rowing Pro')" class="btn-book">ใช้งาน</a></div></div>
         </div>
+
+    <div style="margin-top: 100px; text-align: center;">
+        <h2>What Our Guests Say</h2>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" style="width:50px; border-radius:50%;">
+                    <div style="text-align:left;"><strong>Emma Rodriguez</strong><br><small>Barcelona, Spain</small></div>
+                </div>
+                <div style="color:#f59e0b; text-align:left;">★★★★☆</div>
+                <p style="text-align:left; color:var(--slate); margin-top:10px;">"ระบบจองคิวที่นี่ดีที่สุดเท่าที่เคยใช้มา ไม่ต้องรอนานเลยค่ะ"</p>
+            </div>
+            </div>
+    </div>
+
+    <section id="contact-section" style="margin-top: 100px; padding-top: 50px; border-top: 1px solid #e2e8f0;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+            <div>
+                <h2 style="font-size: 2rem; margin-bottom: 20px;">ติดต่อเรา</h2>
+                <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
+                    <i class="fab fa-facebook" style="font-size: 2rem; color: #1877f2;"></i>
+                    <div><strong>Facebook</strong><br>SmartQueueFN</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas fa-phone-alt" style="font-size: 2rem; color: #22c55e;"></i>
+                    <div><strong>Tel</strong><br>089-091-2425</div>
+                </div>
+            </div>
+            <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                <h3>ส่งข้อความถึงเรา</h3>
+                <input type="text" placeholder="ชื่อของคุณ" class="input-field">
+                <textarea placeholder="ข้อความ..." class="input-field" style="height:100px; resize:none;"></textarea>
+                <button class="btn-signin" style="width:100%; margin-top:15px;" onclick="alert('ขอบคุณที่ติดต่อเรา!')">ส่งข้อมูล</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="newsletter-box">
+        <h2>Stay Inspired</h2>
+        <p>รับเทคนิคการออกกำลังกายและอัปเดตคลาสใหม่ๆ</p>
+        <div style="margin-top:20px;">
+            <input type="email" placeholder="Enter your email" style="padding:12px; border-radius:10px; border:none; width:250px;">
+            <button class="btn-sub">Subscribe →</button>
+        </div>
+    </div>
 </div>
 
 <div id="schedule-page" class="page-content">
-    <div class="section-header">
-        <h2>ตารางเรียนประจำสัปดาห์</h2>
-        <p>วางแผนการเข้าคลาสที่คุณชื่นชอบ</p>
-    </div>
     <div class="schedule-container">
+        <h2 style="margin-bottom:20px;">📅 ตารางเรียนประจำสัปดาห์</h2>
         <table class="sch-table">
-            <thead>
-                <tr><th>เวลา</th><th>จันทร์</th><th>อังคาร</th><th>พุธ</th><th>พฤหัสบดี</th><th>ศุกร์</th></tr>
-            </thead>
+            <thead><tr><th>เวลา</th><th>จันทร์</th><th>อังคาร</th><th>พุธ</th><th>พฤหัสบดี</th><th>ศุกร์</th></tr></thead>
             <tbody>
-                <tr><td>08:00</td><td><div class="class-pill yoga">Power Yoga</div></td><td>-</td><td><div class="class-pill yoga">Power Yoga</div></td><td>-</td><td><div class="class-pill yoga">Power Yoga</div></td></tr>
-                <tr><td>18:00</td><td><div class="class-pill spin">Cycling</div></td><td><div class="class-pill hiit">Zumba HIIT</div></td><td><div class="class-pill spin">Cycling</div></td><td><div class="class-pill hiit">Zumba HIIT</div></td><td><div class="class-pill spin">Cycling</div></td></tr>
+                <tr><td>08:00</td><td>Yoga</td><td>-</td><td>Yoga</td><td>-</td><td>Yoga</td></tr>
+                <tr><td>18:00</td><td>Cycling</td><td>HIIT</td><td>Cycling</td><td>HIIT</td><td>Cycling</td></tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<section class="testimonials">
-    <h2>What Our Members Say</h2>
-    <div class="testi-grid">
-        <div class="testi-card">
-            <div class="stars">★★★★★</div>
-            <p>"ระบบจองคิวใช้งานง่ายมากครับ ไม่ต้องมายืนรอหน้าเครื่องให้เสียเวลา สบายใจขึ้นเยอะ!"</p>
-            <p style="margin-top:1.5rem"><strong>- คุณเอ็มม่า รอดริเกซ</strong></p>
-        </div>
-        <div class="testi-card">
-            <div class="stars">★★★★★</div>
-            <p>"ชอบตารางสอนที่ดูง่าย สลับหน้าไปมาได้เร็ว ดีไซน์เว็บสวยเหมือนแอปเมืองนอกเลยค่ะ"</p>
-            <p style="margin-top:1.5rem"><strong>- คุณโซเฟีย ลี</strong></p>
-        </div>
-    </div>
-</section>
-
-<div class="newsletter-box" style="margin: 0 8% 80px;">
-    <h2>Stay Inspired</h2>
-    <p>รับเทคนิคการออกกำลังกายและอัปเดตคลาสใหม่ๆ ก่อนใคร</p>
-    <div class="newsletter-input">
-        <input type="email" placeholder="กรอกอีเมลของคุณ">
-        <button class="btn-sub">Subscribe →</button>
-    </div>
-</div>
-
 <footer>
-    <div class="footer-grid">
-        <div>
-            <h2 style="color:var(--primary); margin-bottom:1.5rem">💪 SMARTQUEUE</h2>
-            <p style="color:var(--slate); font-size:0.9rem">นวัตกรรมจัดการคิวที่ทำให้การเข้ายิมเป็นเรื่องง่ายสำหรับทุกคน</p>
+    <div style="padding: 0 8%;">
+        <div class="footer-grid">
+            <div><h2 style="color:var(--primary)">💪 SmartQueue</h2><p>Innovating your fitness journey.</p></div>
+            <div><h4>COMPANY</h4><p>About<br>Careers</p></div>
+            <div><h4>SUPPORT</h4><p>Help Center<br>Contact Us</p></div>
+            <div><h4>STAY UPDATED</h4><input type="text" placeholder="Your email" style="padding:8px; width:100%;"></div>
         </div>
-        <div>
-            <h4>COMPANY</h4>
-            <p style="margin-top:1rem; font-size:0.9rem; color:var(--slate)">About Us<br>Careers<br>Blog</p>
-        </div>
-        <div>
-            <h4>SUPPORT</h4>
-            <p style="margin-top:1rem; font-size:0.9rem; color:var(--slate)">Help Center<br>Safety<br>Contact</p>
-        </div>
-        <div>
-            <h4>SOCIAL</h4>
-            <div style="display:flex; gap:15px; margin-top:1rem; font-size:1.2rem">
-                <i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i> <i class="fab fa-line"></i>
-            </div>
-        </div>
-    </div>
-    <div style="text-align:center; padding-top:30px; border-top:1px solid #f1f5f9; color:var(--slate); font-size:0.8rem">
-        © 2026 SmartQueue Fitness. All rights reserved.
+        <p style="margin-top:50px; border-top:1px solid #f1f5f9; padding-top:20px; font-size:0.8rem; color:var(--slate)">© 2026 SmartQueue Fitness. All rights reserved.</p>
     </div>
 </footer>
 
@@ -206,47 +184,33 @@
     <div class="modal-content">
         <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
         <h2>Sign in to SmartQueue</h2>
-        <p style="color:var(--slate); margin-bottom:20px">ยินดีต้อนรับกลับมา! กรุณาเข้าสู่ระบบ</p>
         <input type="text" id="modalUsername" class="input-field" placeholder="Username">
         <input type="password" id="modalPassword" class="input-field" placeholder="Password">
-        <button class="btn-main" onclick="handleModalLogin()">Continue</button>
-        <p style="margin-top:20px; font-size:0.9rem">Don't have an account? <a onclick="switchToRegister()" style="color:var(--primary); cursor:pointer; font-weight:600">Sign up</a></p>
-    </div>
-</div>
-
-<div id="registerModal" class="modal">
-    <div class="modal-content">
-        <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('registerModal')">✕</span>
-        <h2>Create Account</h2>
-        <input type="text" id="regUsername" class="input-field" placeholder="Create Username">
-        <input type="password" id="regPassword" class="input-field" placeholder="Create Password">
-        <button class="btn-main" onclick="handleModalRegister()" style="background:var(--primary)">Sign Up</button>
-        <p style="margin-top:20px; font-size:0.9rem">Already have an account? <a onclick="switchToLogin()" style="color:var(--primary); cursor:pointer; font-weight:600">Sign in</a></p>
+        <button class="btn-signin" style="width:100%; margin-top:20px;" onclick="handleModalLogin()">Continue</button>
     </div>
 </div>
 
 <script>
-    // สลับหน้า
     function showPage(page) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         if(page === 'equipment') {
             document.getElementById('equipment-page').classList.add('page-active');
             document.getElementById('nav-eq').classList.add('active');
-            window.scrollTo({top: 500, behavior: 'smooth'}); // เลื่อนลงมาที่ส่วนจอง
         } else {
             document.getElementById('schedule-page').classList.add('page-active');
             document.getElementById('nav-sch').classList.add('active');
         }
     }
 
-    // Modal Controls
+    function scrollToContact() {
+        showPage('equipment');
+        document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
     function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function switchToRegister() { closeModal('loginModal'); document.getElementById('registerModal').style.display = 'flex'; }
-    function switchToLogin() { closeModal('registerModal'); openLoginModal(); }
 
-    // Backend Logic
     async function handleModalLogin() {
         const u = document.getElementById('modalUsername').value;
         const p = document.getElementById('modalPassword').value;
@@ -258,34 +222,20 @@
             const data = await res.json();
             if(res.ok) { sessionStorage.setItem('user', JSON.stringify(data.user)); location.reload(); }
             else alert(data.message);
-        } catch(e) { alert("⚠️ เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (ลืมรัน node server.js?)"); }
-    }
-
-    async function handleModalRegister() {
-        const u = document.getElementById('regUsername').value;
-        const p = document.getElementById('regPassword').value;
-        try {
-            const res = await fetch('http://localhost:3000/api/register', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username: u, password: p})
-            });
-            if(res.ok) { alert("สมัครสมาชิกสำเร็จ!"); switchToLogin(); }
-            else { const d = await res.json(); alert(d.message); }
-        } catch(e) { alert("Error connecting to server"); }
+        } catch(e) { alert("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (รัน node server.js หรือยัง?)"); }
     }
 
     async function bookEquipment(name) {
-        const userStr = sessionStorage.getItem('user');
-        if(!userStr) { alert("กรุณาล็อกอินก่อนจองครับ"); return openLoginModal(); }
-        const user = JSON.parse(userStr);
+        const user = sessionStorage.getItem('user');
+        if(!user) return openLoginModal();
         try {
             const res = await fetch('http://localhost:3000/api/booking', {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username: user.username, equipment_name: name})
+                body: JSON.stringify({username: JSON.parse(user).username, equipment_name: name})
             });
             const data = await res.json();
             alert(data.message);
-        } catch(e) { alert("ระบบจองขัดข้อง"); }
+        } catch(e) { alert("เกิดข้อผิดพลาดในการจอง"); }
     }
 
     function handleLogout() { sessionStorage.clear(); location.reload(); }
@@ -298,69 +248,6 @@
             document.getElementById('userBtn').onclick = null;
         }
     }
-    <li><a id="nav-con" onclick="scrollToContact()">ติดต่อเรา</a></li>
-
-<section id="contact-section" class="page-content" style="background: #fff; padding: 100px 8%;">
-    <div class="section-header">
-        <h2>Get In Touch</h2>
-        <p>มีข้อสงสัยหรือต้องการความช่วยเหลือ? ทีมงานของเราพร้อมดูแลคุณ</p>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; margin-top: 50px;">
-        <div class="contact-info">
-            <div style="margin-bottom: 2rem;">
-                <h3 style="margin-bottom: 10px; color: var(--navy);">📍 ที่ตั้งของเรา</h3>
-                <p style="color: var(--slate);">123 ถนนสุขุมวิท แขวงคลองเตย <br>เขตคลองเตย กรุงเทพมหานคร 10110</p>
-            </div>
-            <div style="margin-bottom: 2rem;">
-                <h3 style="margin-bottom: 10px; color: var(--navy);">📞 ข้อมูลติดต่อ</h3>
-                <p style="color: var(--slate);">โทร: 02-123-4567<br>อีเมล: support@smartqueue.com</p>
-            </div>
-            <div style="margin-bottom: 2rem;">
-                <h3 style="margin-bottom: 10px; color: var(--navy);">⏰ เวลาทำการ</h3>
-                <p style="color: var(--slate);">เปิดบริการทุกวัน: 06:00 - 22:00 น.<br>(วันหยุดนักขัตฤกษ์: 08:00 - 20:00 น.)</p>
-            </div>
-        </div>
-
-        <div style="background: var(--light); padding: 40px; border-radius: 25px;">
-            <h3 style="margin-bottom: 20px;">ส่งข้อความถึงเรา</h3>
-            <form onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อย! เราจะติดต่อกลับโดยเร็วที่สุด');">
-                <input type="text" placeholder="ชื่อของคุณ" class="input-field" style="background: white; margin-top: 0;">
-                <input type="email" placeholder="อีเมล" class="input-field" style="background: white;">
-                <textarea placeholder="ข้อความที่ต้องการติดต่อ..." class="input-field" style="background: white; height: 120px; resize: none; padding-top: 15px;"></textarea>
-                <button type="submit" class="btn-main">ส่งข้อความ</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<script>
-    // เพิ่มฟังก์ชันสำหรับเลื่อนหน้าจอไปยังส่วนติดต่อเรา
-    function scrollToContact() {
-        // ถ้าอยู่หน้าตารางสอน ให้สลับกลับมาหน้าแรกก่อน
-        showPage('equipment');
-        // เลื่อนไปยังตำแหน่งของ contact-section
-        const contactSec = document.getElementById('contact-section');
-        contactSec.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // แก้ไขฟังก์ชัน showPage ให้ปิด/เปิดส่วน Contact ด้วย
-    function showPage(page) {
-        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
-        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-        
-        if(page === 'equipment') {
-            document.getElementById('equipment-page').classList.add('page-active');
-            document.getElementById('contact-section').style.display = 'block'; // แสดงหน้าติดต่อในหน้าแรก
-            document.getElementById('nav-eq').classList.add('active');
-        } else if(page === 'schedule') {
-            document.getElementById('schedule-page').classList.add('page-active');
-            document.getElementById('contact-section').style.display = 'none'; // ซ่อนหน้าติดต่อเมื่อดูตารางสอน
-            document.getElementById('nav-sch').classList.add('active');
-        }
-    }
-</script>
 </script>
 </body>
 </html>
-
