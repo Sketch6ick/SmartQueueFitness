@@ -3,49 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness | Machine & Class Booking</title>
+    <title>SmartQueue Fitness | Admin & User Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #0f172a; --accent: #2563eb; --light: #f8fafc; --gray: #64748b; --danger: #ef4444; --success: #22c55e; --warning: #f59e0b; }
+        :root { --primary: #0f172a; --accent: #2563eb; --light: #f1f5f9; --gray: #64748b; --danger: #ef4444; --success: #22c55e; --warning: #f59e0b; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
         body { background-color: white; color: var(--primary); scroll-behavior: smooth; }
 
         .hidden { display: none !important; }
         .btn-main { background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
         .btn-main:hover { background: var(--accent); transform: translateY(-2px); }
+        .btn-sm { padding: 5px 12px; font-size: 0.85rem; border-radius: 5px; cursor: pointer; border: 1px solid #ddd; }
 
         /* --- Navigation --- */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 8%; background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
-        .logo { font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; color: #000; text-decoration: none; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 8%; background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
+        .logo { font-size: 1.4rem; font-weight: 700; cursor: pointer; color: #000; text-decoration: none; }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: #334155; font-size: 0.95rem; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: #334155; font-size: 0.95rem; }
 
-        /* --- Hero --- */
-        .hero { height: 350px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 8%; color: white; }
-        
-        /* --- Grid System --- */
-        .section { padding: 60px 8%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-top: 30px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; text-align: center; padding-bottom: 20px; transition: 0.3s; position: relative; }
-        .card img { width: 100%; height: 180px; object-fit: cover; }
-        .badge { position: absolute; top: 12px; left: 12px; background: var(--success); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
-
-        /* --- Dashboard Sidebar --- */
-        #dashboardLayout { min-height: 100vh; background: #f1f5f9; display: flex; }
-        .sidebar { width: 280px; background: var(--primary); color: white; padding: 40px 20px; position: fixed; height: 100vh; }
+        /* --- Dashboard Layout --- */
+        #dashboardLayout { min-height: 100vh; background: var(--light); display: flex; }
+        .sidebar { width: 280px; background: var(--primary); color: white; padding: 40px 20px; position: fixed; height: 100vh; z-index: 100; }
         .main-content { margin-left: 280px; padding: 40px; width: calc(100% - 280px); }
-        .side-menu { list-style: none; margin-top: 40px; }
-        .side-menu li { padding: 14px; border-radius: 10px; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+        .side-menu { list-style: none; margin-top: 30px; }
+        .side-menu li { padding: 14px; border-radius: 10px; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
         .side-menu li.active { background: var(--accent); }
+        
+        /* --- Tables & Cards --- */
+        .content-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        th { color: var(--gray); font-weight: 400; }
 
-        /* --- Timer Style --- */
-        .timer-box { font-size: 2.5rem; font-weight: 700; color: var(--danger); margin: 10px 0; font-family: monospace; }
+        .status-pill { padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+        .status-on { background: #dcfce7; color: #166534; }
+        .status-off { background: #fee2e2; color: #991b1b; }
 
-        /* --- Modal --- */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; position: relative; }
-        .input-group input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; margin-top: 10px; outline: none; }
+        /* --- Forms --- */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--gray); font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
     </style>
 </head>
 <body>
@@ -56,91 +54,107 @@
         <ul class="nav-links">
             <li><a href="#machines">เครื่องเล่น</a></li>
             <li><a href="#classes">คลาสเรียน</a></li>
-            <li><a href="#contact">ติดต่อเรา</a></li>
         </ul>
-        <div id="authArea">
-            <button class="btn-main" onclick="openModal('loginModal')">Sign In</button>
-        </div>
+        <div id="authArea"><button class="btn-main" onclick="openModal('loginModal')">Sign In</button></div>
     </nav>
-
-    <div class="hero">
-        <h1>ระบบจองคิวฟิตเนสอัจฉริยะ</h1>
+    <div style="padding: 100px 8%; text-align: center; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200'); background-size: cover; color: white;">
+        <h1>ฟิตเนสยุคใหม่ จองคิวออนไลน์ไม่ต้องรอนาน</h1>
+        <p style="margin-top:20px;">เลือกเครื่องเล่นด้านล่างเพื่อเริ่มใช้งาน</p>
     </div>
-
-    <div class="section" id="machines">
-        <h2 style="text-align:center;">เครื่องเล่นที่เปิดจอง (8 เครื่อง)</h2>
-        <div class="grid" id="machineContainer"></div>
-    </div>
-
-    <div class="section" id="classes" style="background: #f8fafc;">
-        <h2 style="text-align:center;">จองคลาสเรียนวันนี้</h2>
-        <div class="grid">
-            <div class="card">
-                <span class="badge" style="background:var(--warning)">Hot Class</span>
-                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400">
-                <h3 style="margin-top:15px;">Yoga Advance</h3>
-                <p style="color:var(--gray); font-size:0.9rem;">เวลา 17:00 - 18:00 น.</p>
-                <button class="btn-main" style="margin-top:15px; width:85%;" onclick="bookItem('Yoga Advance', 'class')">จองคลาสนี้</button>
-            </div>
-            <div class="card">
-                <span class="badge" style="background:var(--accent)">10 Slots Left</span>
-                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400">
-                <h3 style="margin-top:15px;">Zumba Dance</h3>
-                <p style="color:var(--gray); font-size:0.9rem;">เวลา 18:30 - 19:30 น.</p>
-                <button class="btn-main" style="margin-top:15px; width:85%;" onclick="bookItem('Zumba Dance', 'class')">จองคลาสนี้</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="contact-box section" id="contact">
-        <h2>ติดต่อเรา</h2>
-        <p><i class="fab fa-facebook" style="color:#1877F2;"></i> <strong>Facebook:</strong> SmartQueueFN</p>
-        <p style="margin-top:10px;"><i class="fas fa-phone" style="color:#22c55e;"></i> <strong>Tel:</strong> 0890912425</p>
+    
+    <div class="section" id="machines" style="padding: 50px 8%;">
+        <h2 style="text-align:center;">เครื่องเล่นทั้งหมด (8 เครื่อง)</h2>
+        <div id="machineContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top:30px;"></div>
     </div>
 </div>
 
 <div id="dashboardLayout" class="hidden">
     <div class="sidebar">
-        <h2 onclick="toggleView('landing')" style="cursor:pointer;">💪 SmartQueue</h2>
+        <h2 style="margin-bottom:20px;">SmartQueue</h2>
         <ul class="side-menu">
-            <li id="menu-main" class="active" onclick="showTab('main')"><i class="fas fa-chart-line"></i> หน้าหลัก (สถานะคิว)</li>
-            <li id="menu-profile" onclick="showTab('profile')"><i class="fas fa-user-circle"></i> ตั้งค่าบัญชี</li>
-            <li id="adminMenu" class="hidden" onclick="showTab('admin')"><i class="fas fa-user-shield"></i> เมนู Admin</li>
+            <li id="m-main" class="active" onclick="showTab('main')"><i class="fas fa-clock"></i> สถานะคิวปัจจุบัน</li>
+            <li id="m-history" onclick="showTab('history')"><i class="fas fa-history"></i> ประวัติการเข้าเล่น</li>
+            <li id="m-profile" onclick="showTab('profile')"><i class="fas fa-user-cog"></i> ตั้งค่าบัญชี</li>
+            <li id="adminMenu" class="hidden" onclick="showTab('admin')" style="color:var(--warning); font-weight:600;"><i class="fas fa-tools"></i> จัดการระบบ (Admin)</li>
             <li onclick="toggleView('landing')" style="margin-top:30px; border-top:1px solid #334155; padding-top:20px;"><i class="fas fa-home"></i> กลับหน้าแรก</li>
             <li onclick="logout()" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</li>
         </ul>
     </div>
+
     <div class="main-content">
         <div id="tab-main" class="tab-content">
-            <h2 id="welcomeUser">สวัสดีคุณ...</h2>
-            
-            <div id="activeBookingBox" class="hidden" style="margin-top:30px; display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                <div style="background:white; padding:30px; border-radius:20px; border-left:6px solid var(--danger); box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);">
-                    <h4 style="color:var(--gray);">เวลาที่เหลือในการใช้งาน</h4>
-                    <div id="countdownTimer" class="timer-box">30:00</div>
-                    <p id="bookingType" style="font-size:0.9rem; color:var(--gray);">เครื่องเล่น: <span id="bookedItemName" style="color:var(--primary); font-weight:600;">-</span></p>
-                </div>
-                <div style="background:white; padding:30px; border-radius:20px; border-left:6px solid var(--accent); box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);">
-                    <h4 style="color:var(--gray);">คิวของคุณ</h4>
-                    <div id="dashQueueNum" style="font-size:3rem; font-weight:700; color:var(--accent); margin-top:10px;">#01</div>
-                    <p style="color:var(--success); font-weight:600;"><i class="fas fa-check-circle"></i> พร้อมใช้งานแล้ว</p>
-                </div>
+            <h2 id="welcomeUser">สวัสดี</h2>
+            <div id="activeBookingBox" class="hidden content-card" style="margin-top:20px; border-left: 6px solid var(--accent);">
+                <h4>คุณกำลังใช้งาน: <span id="bookedItemName" style="color:var(--accent);"></span></h4>
+                <div id="countdownTimer" style="font-size: 3rem; font-weight: 700; color: var(--danger); font-family: monospace;">30:00</div>
+                <button onclick="cancelBooking()" style="color:var(--danger); background:none; border:none; cursor:pointer; text-decoration:underline;">ยกเลิกคิว</button>
             </div>
-
-            <div id="noBookingBox" style="margin-top:30px; padding:50px; background:#fff; border-radius:20px; text-align:center; color:var(--gray);">
-                <i class="fas fa-calendar-times" style="font-size:3rem; margin-bottom:15px;"></i>
-                <p>คุณยังไม่มีการจองคิวในขณะนี้<br>กรุณาเลือกเครื่องเล่นหรือคลาสเรียนจากหน้าแรก</p>
+            <div id="noBookingBox" class="content-card" style="text-align:center; color:var(--gray);">
+                <p>ไม่มีคิวที่กำลังทำงาน</p>
             </div>
+        </div>
 
-            <button id="cancelBtn" class="hidden" onclick="cancelBooking()" style="margin-top:20px; background:none; border:none; color:var(--danger); cursor:pointer; font-weight:600; text-decoration:underline;">ยกเลิกการจอง</button>
+        <div id="tab-history" class="tab-content hidden">
+            <h2>ประวัติการเข้าใช้งาน</h2>
+            <div class="content-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>วันที่</th>
+                            <th>รายการ</th>
+                            <th>ประเภท</th>
+                            <th>สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        <tr><td>01/03/2026</td><td>Treadmill Elite</td><td>เครื่องเล่น</td><td><span class="status-pill status-on">เสร็จสิ้น</span></td></tr>
+                        <tr><td>28/02/2026</td><td>Yoga Advance</td><td>คลาสเรียน</td><td><span class="status-pill status-on">เสร็จสิ้น</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="tab-profile" class="tab-content hidden">
-            <h2>ตั้งค่าบัญชี</h2>
-            <div style="background:white; padding:30px; border-radius:15px; max-width:500px; margin-top:20px;">
-                <label>ชื่อผู้ใช้งาน</label>
-                <input type="text" id="profileName" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
-                <button class="btn-main" onclick="alert('บันทึกข้อมูลเรียบร้อย')">บันทึก</button>
+            <h2>ตั้งค่าบัญชี & เปลี่ยนรหัสผ่าน</h2>
+            <div class="content-card" style="max-width: 500px;">
+                <div class="form-group">
+                    <label>ชื่อผู้ใช้งาน</label>
+                    <input type="text" id="profileName">
+                </div>
+                <div style="border-top: 1px solid #eee; margin: 20px 0; padding-top: 20px;">
+                    <h4 style="margin-bottom:15px;">เปลี่ยนรหัสผ่าน</h4>
+                    <div class="form-group"><label>รหัสผ่านเดิม</label><input type="password"></div>
+                    <div class="form-group"><label>รหัสผ่านใหม่</label><input type="password"></div>
+                </div>
+                <button class="btn-main" onclick="alert('บันทึกข้อมูลสำเร็จ')">บันทึกการเปลี่ยนแปลง</button>
+            </div>
+        </div>
+
+        <div id="tab-admin" class="tab-content hidden">
+            <h2>แผงควบคุมผู้ดูแลระบบ</h2>
+            
+            <div class="content-card">
+                <h3>จัดการเครื่องเล่น (8 เครื่อง)</h3>
+                <table>
+                    <thead>
+                        <tr><th>ชื่อเครื่อง</th><th>สถานะปัจจุบัน</th><th>การจัดการ</th></tr>
+                    </thead>
+                    <tbody id="adminMachineTable">
+                        </tbody>
+                </table>
+            </div>
+
+            <div class="content-card">
+                <h3>จัดการคลาสเรียน</h3>
+                <table>
+                    <thead>
+                        <tr><th>ชื่อคลาส</th><th>เวลา</th><th>สถานะ</th><th>การจัดการ</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Yoga Advance</td><td>17:00</td><td><span class="status-pill status-on">เปิดจอง</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                        <tr><td>Zumba Dance</td><td>18:30</td><td><span class="status-pill status-on">เปิดจอง</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -150,85 +164,92 @@
     <div class="modal-content">
         <span style="position:absolute; right:20px; top:15px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
         <h2>เข้าสู่ระบบ</h2>
-        <div class="input-group">
-            <input type="text" id="userIn" placeholder="Username (admin เพื่อเป็นแอดมิน)">
-            <input type="password" placeholder="Password">
+        <div class="form-group" style="margin-top:20px;">
+            <input type="text" id="userIn" placeholder="ชื่อผู้ใช้งาน (พิมพ์ admin เพื่อเป็นแอดมิน)">
         </div>
-        <button class="btn-main" style="width:100%; margin-top:20px;" onclick="loginAction()">เข้าสู่ระบบ</button>
+        <div class="form-group">
+            <input type="password" placeholder="รหัสผ่าน">
+        </div>
+        <button class="btn-main" style="width:100%;" onclick="loginAction()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
 <script>
     const machines = [
-        { name: "Treadmill Elite-X", img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400" },
-        { name: "Smith Machine Pro", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400" },
-        { name: "Rowing Machine", img: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400" },
-        { name: "Stationary Bike", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400" },
-        { name: "Leg Press Max", img: "https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400" },
-        { name: "Dumbbell Set", img: "https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400" },
-        { name: "Elliptical Trainer", img: "https://images.unsplash.com/photo-1574673139082-c3b8d669143b?w=400" },
-        { name: "Cable Crossover", img: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400" }
+        { id: 1, name: "Treadmill Elite-X", status: "Available" },
+        { id: 2, name: "Smith Machine Pro", status: "Available" },
+        { id: 3, name: "Rowing Machine", status: "Repairing" },
+        { id: 4, name: "Stationary Bike", status: "Available" },
+        { id: 5, name: "Leg Press Max", status: "Available" },
+        { id: 6, name: "Dumbbell Set", status: "Available" },
+        { id: 7, name: "Elliptical Trainer", status: "Available" },
+        { id: 8, name: "Cable Crossover", status: "Available" }
     ];
 
-    let timerInterval;
+    let timer;
 
-    function renderMachines() {
+    function renderUserMachines() {
         document.getElementById('machineContainer').innerHTML = machines.map(m => `
-            <div class="card">
-                <span class="badge">Available</span>
-                <img src="${m.img}">
-                <h3 style="margin-top:15px;">${m.name}</h3>
-                <button class="btn-main" style="margin-top:15px; width:85%;" onclick="bookItem('${m.name}', 'เครื่องเล่น')">จองเครื่องนี้</button>
+            <div class="content-card" style="text-align:center;">
+                <h3>${m.name}</h3>
+                <p style="color:${m.status === 'Available' ? 'var(--success)' : 'var(--danger)'}">${m.status}</p>
+                <button class="btn-main" style="margin-top:10px; width:100%;" ${m.status !== 'Available' ? 'disabled' : ''} 
+                    onclick="bookItem('${m.name}')">${m.status === 'Available' ? 'จองคิว' : 'ปิดซ่อม'}</button>
             </div>
         `).join('');
     }
 
-    // ฟังก์ชันจอง: ต้องพาไปหน้า Dashboard (Tab Main) เสมอ
-    function bookItem(name, type) {
-        if (!localStorage.getItem('fitness_user')) { openModal('loginModal'); return; }
-        
-        localStorage.setItem('booked_name', name);
-        localStorage.setItem('booked_type', type);
-        localStorage.setItem('queue_time', 30 * 60); // 30 นาที
-
-        toggleView('dashboard');
-        showTab('main'); // บังคับแสดงหน้าหลัก (คิว)
-        startTimer(30 * 60);
+    function renderAdminMachines() {
+        document.getElementById('adminMachineTable').innerHTML = machines.map(m => `
+            <tr>
+                <td>${m.name}</td>
+                <td><span class="status-pill ${m.status === 'Available' ? 'status-on' : 'status-off'}">${m.status}</span></td>
+                <td>
+                    <button class="btn-sm" onclick="toggleMachineStatus(${m.id})">สลับสถานะ</button>
+                </td>
+            </tr>
+        `).join('');
     }
 
-    function startTimer(seconds) {
-        clearInterval(timerInterval);
-        let timeLeft = seconds;
-        
-        const display = document.getElementById('countdownTimer');
+    function toggleMachineStatus(id) {
+        const m = machines.find(item => item.id === id);
+        m.status = m.status === 'Available' ? 'Repairing' : 'Available';
+        renderAdminMachines();
+        renderUserMachines();
+        alert(`อัปเดตสถานะ ${m.name} แล้ว`);
+    }
+
+    function bookItem(name) {
+        if (!localStorage.getItem('fitness_user')) { openModal('loginModal'); return; }
+        localStorage.setItem('booked_name', name);
+        toggleView('dashboard');
+        showTab('main');
+        startTimer(1800); // 30 นาที
+    }
+
+    function startTimer(duration) {
+        clearInterval(timer);
+        let time = duration;
         document.getElementById('activeBookingBox').classList.remove('hidden');
         document.getElementById('noBookingBox').classList.add('hidden');
-        document.getElementById('cancelBtn').classList.remove('hidden');
         document.getElementById('bookedItemName').innerText = localStorage.getItem('booked_name');
 
-        timerInterval = setInterval(() => {
-            let mins = Math.floor(timeLeft / 60);
-            let secs = timeLeft % 60;
-            display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            
-            if (--timeLeft < 0) {
-                clearInterval(timerInterval);
-                cancelBooking();
-                alert("หมดเวลาการใช้งานแล้ว!");
-            }
+        timer = setInterval(() => {
+            let mins = Math.floor(time / 60);
+            let secs = time % 60;
+            document.getElementById('countdownTimer').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            if (--time < 0) { clearInterval(timer); cancelBooking(); }
         }, 1000);
     }
 
     function cancelBooking() {
-        clearInterval(timerInterval);
+        clearInterval(timer);
         localStorage.removeItem('booked_name');
-        localStorage.removeItem('booked_type');
         document.getElementById('activeBookingBox').classList.add('hidden');
         document.getElementById('noBookingBox').classList.remove('hidden');
-        document.getElementById('cancelBtn').classList.add('hidden');
     }
 
-    // System Logic
+    // --- UI Logic ---
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
@@ -236,11 +257,17 @@
         if (view === 'dashboard') {
             document.getElementById('landingPage').classList.add('hidden');
             document.getElementById('dashboardLayout').classList.remove('hidden');
-            if(localStorage.getItem('booked_name')) startTimer(30 * 60);
         } else {
             document.getElementById('landingPage').classList.remove('hidden');
             document.getElementById('dashboardLayout').classList.add('hidden');
         }
+    }
+
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+        document.querySelectorAll('.side-menu li').forEach(l => l.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.remove('hidden');
+        document.getElementById('m-' + tabId).classList.add('active');
     }
 
     function loginAction() {
@@ -251,21 +278,15 @@
         location.reload();
     }
 
-    function showTab(name) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-        document.querySelectorAll('.side-menu li').forEach(l => l.classList.remove('active'));
-        document.getElementById('tab-'+name).classList.remove('hidden');
-        document.getElementById('menu-'+name).classList.add('active');
-    }
-
     function logout() { localStorage.clear(); location.reload(); }
 
     window.onload = () => {
-        renderMachines();
+        renderUserMachines();
+        renderAdminMachines();
         const user = localStorage.getItem('fitness_user');
         if(user) {
             document.getElementById('authArea').innerHTML = `<button class="btn-main" onclick="toggleView('dashboard')">Dashboard</button>`;
-            document.getElementById('welcomeUser').innerText = `สวัสดีคุณ ${user}`;
+            document.getElementById('welcomeUser').innerText = `ยินดีต้อนรับคุณ ${user}`;
             document.getElementById('profileName').value = user;
             if(localStorage.getItem('user_role') === 'admin') document.getElementById('adminMenu').classList.remove('hidden');
         }
