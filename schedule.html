@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule - SmartQueue Fitness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; padding: 40px 8%; }
+
+        .schedule-container {
+            background: white;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow-x: auto; /* รองรับมือถือถ้าตารางกว้างไป */
+        }
+
+        h1 { text-align: center; margin-bottom: 30px; color: #0f172a; font-size: 2rem; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        th { background-color: #1e293b; color: white; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ตกแต่งช่องเวลา */
+        .time-slot { background-color: #f1f5f9; font-weight: 600; color: #475569; width: 120px; }
+
+        /* ตกแต่ง Class ต่างๆ */
+        .class-item {
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .class-item:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        /* สีแยกตามประเภทคลาส */
+        .yoga { background: #dcfce7; color: #15803d; border-left: 4px solid #15803d; }
+        .hiit { background: #fee2e2; color: #b91c1c; border-left: 4px solid #b91c1c; }
+        .cycling { background: #dbeafe; color: #1d4ed8; border-left: 4px solid #1d4ed8; }
+        .zumba { background: #fef9c3; color: #a16207; border-left: 4px solid #a16207; }
+        .empty { color: #cbd5e1; font-style: italic; font-size: 0.8rem; }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <h1>📅 ตารางเรียนคลาสประจำสัปดาห์</h1>
+
+    <div class="schedule-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>เวลา</th>
+                    <th>จันทร์</th>
+                    <th>อังคาร</th>
+                    <th>พุธ</th>
+                    <th>พฤหัสบดี</th>
+                    <th>ศุกร์</th>
+                    <th>เสาร์-อาทิตย์</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="time-slot">08:00 - 09:00</td>
+                    <td><div class="class-item yoga">Morning Yoga</div></td>
+                    <td><span class="empty">ไม่มีคลาส</span></td>
+                    <td><div class="class-item yoga">Morning Yoga</div></td>
+                    <td><span class="empty">ไม่มีคลาส</span></td>
+                    <td><div class="class-item yoga">Morning Yoga</div></td>
+                    <td><div class="class-item zumba">Special Zumba</div></td>
+                </tr>
+                <tr>
+                    <td class="time-slot">10:00 - 11:30</td>
+                    <td><span class="empty">ไม่มีคลาส</span></td>
+                    <td><div class="class-item hiit">HIIT Cardio</div></td>
+                    <td><span class="empty">ไม่มีคลาส</span></td>
+                    <td><div class="class-item cycling">Power Cycling</div></td>
+                    <td><span class="empty">ไม่มีคลาส</span></td>
+                    <td><div class="class-item hiit">Weekend Burn</div></td>
+                </tr>
+                <tr>
+                    <td class="time-slot">17:00 - 18:00</td>
+                    <td><div class="class-item cycling">Spinning Class</div></td>
+                    <td><div class="class-item zumba">Zumba Dance</div></td>
+                    <td><div class="class-item hiit">Core Blast</div></td>
+                    <td><div class="class-item zumba">Zumba Dance</div></td>
+                    <td><div class="class-item cycling">Spinning Class</div></td>
+                    <td><span class="empty">ปิดคลาสเย็น</span></td>
+                </tr>
+                <tr>
+                    <td class="time-slot">18:30 - 19:30</td>
+                    <td><div class="class-item hiit">Body Weight</div></td>
+                    <td><div class="class-item yoga">Evening Yoga</div></td>
+                    <td><div class="class-item cycling">Speed Bike</div></td>
+                    <td><div class="class-item hiit">Body Weight</div></td>
+                    <td><div class="class-item yoga">Evening Yoga</div></td>
+                    <td><span class="empty">ปิดคลาสเย็น</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> กลับไปยังหน้าจองเครื่องเล่น</a>
+
+</body>
+</html>
