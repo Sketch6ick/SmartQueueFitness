@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness</title>
+    <title>SmartQueue Fitness | Full Version</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,47 +12,58 @@
         body { background-color: white; color: var(--primary); scroll-behavior: smooth; }
 
         /* Navigation */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 8%; background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 8%; background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
         .logo { font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; color: #000; }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: #334155; font-size: 0.95rem; }
+        .nav-links a { text-decoration: none; color: #334155; cursor: pointer; font-size: 0.95rem; }
         .btn-signin { background: var(--primary); color: white; padding: 8px 22px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; }
 
         /* Hero */
-        .hero { height: 400px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1200'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 8%; color: white; }
-        .hero h1 { font-size: 2.5rem; line-height: 1.2; }
+        .hero { height: 450px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 8%; color: white; }
+        .hero h1 { font-size: 2.8rem; line-height: 1.2; }
 
-        /* Contact Section (กู้คืนข้อมูลจากรูปภาพ) */
-        .contact-section { padding: 80px 8%; background: #fff; }
-        .contact-container { max-width: 600px; }
-        .contact-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 25px; }
-        .contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-size: 1.1rem; }
-        .contact-item i { width: 25px; font-size: 1.3rem; }
-        .fa-facebook { color: #1877F2; }
-        .fa-phone { color: #22c55e; }
+        /* Machines Section */
+        .container { padding: 80px 8%; background: #f8fafc; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; text-align: center; padding-bottom: 25px; position: relative; transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .badge { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
+        .btn-booking { width: 85%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1rem; }
 
-        /* Machine Cards */
-        .container { padding: 60px 8%; background: #f8fafc; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; text-align: center; padding-bottom: 20px; position: relative; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .badge { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; }
-        .btn-booking { width: 85%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        /* Testimonials Section (จากรูป image_23a39d.png) */
+        .testimonials { padding: 100px 8%; background: white; text-align: center; }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 50px; }
+        .testi-card { padding: 40px; border: 1px solid #f1f5f9; border-radius: 20px; text-align: left; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.03); }
+        .user-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .user-meta img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; }
+        .stars { color: #f59e0b; margin-bottom: 15px; font-size: 0.9rem; }
 
-        /* Footer */
-        footer { padding: 60px 8% 20px; border-top: 1px solid #eee; background: white; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
-        .footer-col h4 { margin-bottom: 20px; }
-        .footer-links { list-style: none; color: var(--gray); font-size: 0.9rem; }
-        .footer-links li { margin-bottom: 10px; cursor: pointer; }
+        /* Stay Inspired Section (จากรูป image_23a37d.png) */
+        .newsletter-box { background: #0f172a; color: white; padding: 80px 40px; border-radius: 30px; text-align: center; margin: 40px 8%; }
+        .newsletter-box h2 { font-size: 2.2rem; margin-bottom: 15px; }
+        .newsletter-form { display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
+        .newsletter-form input { padding: 16px 25px; border-radius: 10px; border: 1px solid #334155; background: #1e293b; color: white; width: 100%; max-width: 350px; outline: none; }
+        .btn-sub { padding: 16px 35px; background: white; color: black; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; }
+
+        /* Contact Section (จากรูป image_22c284.jpg) */
+        .contact-info-section { padding: 80px 8%; background: white; border-top: 1px solid #f1f5f9; }
+        .contact-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 1.2rem; }
+        .contact-item i { font-size: 1.5rem; }
+
+        /* Footer (จากรูป image_23a37d.png) */
+        footer { padding: 80px 8% 30px; border-top: 1px solid #f1f5f9; background: #fff; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; }
+        .footer-col h4 { margin-bottom: 25px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-links { list-style: none; color: var(--gray); }
+        .footer-links li { margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
+        .footer-links li:hover { color: var(--accent); }
 
         /* Modal */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; position: relative; }
-        .input-group { text-align: left; margin-bottom: 15px; }
-        .input-group input { width: 100%; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; margin-top: 5px; }
-        .btn-auth { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-content { background: white; padding: 50px; border-radius: 25px; width: 95%; max-width: 450px; text-align: center; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .input-group input { width: 100%; padding: 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; outline: none; margin-top: 10px; font-size: 1rem; }
+        .btn-auth { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; margin-top: 20px; font-size: 1rem; }
         
         .show { display: flex !important; }
     </style>
@@ -63,7 +74,7 @@
     <div class="logo" onclick="location.reload()">💪 SmartQueue</div>
     <ul class="nav-links">
         <li><a href="#">หน้าแรก</a></li>
-        <li><a href="#contact">ติดต่อเรา</a></li>
+        <li><a href="#contact-us">ติดต่อเรา</a></li>
     </ul>
     <div id="authArea">
         <button class="btn-signin" onclick="openModal('loginModal')">Sign In</button>
@@ -75,68 +86,104 @@
 </div>
 
 <div class="container">
-    <h2 style="margin-bottom:30px;">เครื่องเล่นที่พร้อมใช้งาน</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 40px; text-align: center;">เครื่องเล่นที่พร้อมใช้งาน</h2>
     <div class="grid">
         <div class="card">
             <span class="badge">Available</span>
             <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500">
-            <h3 style="margin:15px 0;">Treadmill Elite-X</h3>
+            <h3 style="margin:20px 0 15px;">Treadmill Elite-X</h3>
             <button class="btn-booking" onclick="handleBooking('Treadmill Elite-X')">จองเครื่องนี้</button>
         </div>
         <div class="card">
             <span class="badge">Available</span>
             <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500">
-            <h3 style="margin:15px 0;">Smith Machine</h3>
+            <h3 style="margin:20px 0 15px;">Smith Machine</h3>
             <button class="btn-booking" onclick="handleBooking('Smith Machine')">จองเครื่องนี้</button>
+        </div>
+        <div class="card">
+            <span class="badge">Available</span>
+            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=500">
+            <h3 style="margin:20px 0 15px;">Rowing Pro</h3>
+            <button class="btn-booking" onclick="handleBooking('Rowing Pro')">จองเครื่องนี้</button>
         </div>
     </div>
 </div>
 
-<div class="contact-section" id="contact">
-    <div class="contact-container">
-        <h2 class="contact-title">ติดต่อเรา</h2>
-        <div class="contact-item">
-            <i class="fab fa-facebook"></i>
-            <strong>Facebook:</strong> SmartQueueFN
+<section class="testimonials">
+    <h2 style="font-size: 2.2rem; margin-bottom: 10px;">What Our Guests Say</h2>
+    <p style="color: var(--gray); max-width: 600px; margin: 0 auto;">เสียงตอบรับจริงจากผู้ใช้งานระบบจองคิวอัจฉริยะในฟิตเนสของเรา</p>
+    <div class="testi-grid">
+        <div class="testi-card">
+            <div class="user-meta">
+                <img src="https://i.pravatar.cc/150?u=emma">
+                <div><strong>Emma Rodriguez</strong><br><small>Bangkok, Thailand</small></div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p style="color: #475569; line-height: 1.6;">"I've used many booking platforms before, but none compare to the personalized experience and attention to detail that SmartQueue provides."</p>
         </div>
-        <div class="contact-item">
-            <i class="fas fa-phone"></i>
-            <strong>Tel:</strong> 0890912425
+        <div class="testi-card">
+            <div class="user-meta">
+                <img src="https://i.pravatar.cc/150?u=liam">
+                <div><strong>Liam Johnson</strong><br><small>Nonthaburi, Thailand</small></div>
+            </div>
+            <div class="stars">★★★★☆</div>
+            <p style="color: #475569; line-height: 1.6;">"SmartQueue exceeded my expectations. The booking process was seamless, and the workout flow is now much better. Highly recommended!"</p>
         </div>
     </div>
-</div>
+</section>
+
+<section class="newsletter-box">
+    <h2>Stay Inspired</h2>
+    <p style="opacity: 0.8;">Join our newsletter and be the first to discover new updates, exclusive offers, and inspiration.</p>
+    <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email">
+        <button class="btn-sub">Subscribe →</button>
+    </div>
+</section>
+
+<section class="contact-info-section" id="contact-us">
+    <h2 style="font-size: 1.8rem; margin-bottom: 30px;">ติดต่อเรา</h2>
+    <div class="contact-item">
+        <i class="fab fa-facebook" style="color: #1877F2;"></i>
+        <span><strong>Facebook:</strong> SmartQueueFN</span>
+    </div>
+    <div class="contact-item">
+        <i class="fas fa-phone" style="color: #22c55e;"></i>
+        <span><strong>Tel:</strong> 0890912425</span>
+    </div>
+</section>
 
 <footer>
     <div class="footer-grid">
         <div class="footer-col">
-            <h3 style="margin-bottom:15px;">SmartQueue</h3>
-            <p style="color:var(--gray); font-size:0.9rem; line-height:1.6;">ระบบจัดการคิวฟิตเนสอัจฉริยะ เพื่อประสบการณ์การออกกำลังกายที่ดีที่สุด</p>
+            <h3 style="margin-bottom:20px;">💪 SmartQueue</h3>
+            <p style="color:var(--gray); font-size:0.9rem; line-height:1.7;">ระบบจัดการคิวฟิตเนสอัจฉริยะ สำหรับโปรเจคจบการศึกษา พัฒนาเพื่อความสะดวกสบายของสมาชิกทุกคน</p>
         </div>
         <div class="footer-col">
             <h4>COMPANY</h4>
-            <ul class="footer-links"><li>About</li><li>Careers</li><li>Blog</li></ul>
+            <ul class="footer-links"><li>About</li><li>Careers</li><li>Press</li><li>Blog</li></ul>
         </div>
         <div class="footer-col">
             <h4>SUPPORT</h4>
-            <ul class="footer-links"><li>Help Center</li><li>Contact Us</li></ul>
+            <ul class="footer-links"><li>Help Center</li><li>Safety Info</li><li>Contact Us</li></ul>
         </div>
         <div class="footer-col">
-            <h4>SOCIAL</h4>
-            <div style="display:flex; gap:15px; font-size:1.2rem; margin-top:10px;">
-                <i class="fab fa-facebook" style="cursor:pointer;" onclick="window.open('https://facebook.com')"></i>
-                <i class="fab fa-instagram" style="cursor:pointer;"></i>
+            <h4>STAY UPDATED</h4>
+            <p style="font-size:0.85rem; color:var(--gray); margin-bottom:15px;">Subscribe to our newsletter for inspiration and special offers.</p>
+            <div style="display:flex; gap:15px; font-size:1.3rem;">
+                <i class="fab fa-instagram"></i><i class="fab fa-facebook"></i><i class="fab fa-twitter"></i>
             </div>
         </div>
     </div>
-    <p style="text-align:center; color:var(--gray); font-size:0.8rem; border-top:1px solid #eee; margin-top:40px; padding-top:20px;">
-        © 2026 SmartQueue Fitness. All rights reserved.
-    </p>
+    <div style="text-align:center; color:var(--gray); font-size:0.8rem; border-top:1px solid #f1f5f9; margin-top:60px; padding-top:30px;">
+        © 2026 SmartQueue Fitness. All rights reserved. | <span style="cursor:pointer;">Privacy</span> <span style="cursor:pointer;">Terms</span>
+    </div>
 </footer>
 
 <div id="loginModal" class="modal">
     <div class="modal-content">
-        <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
-        <h2 id="modalTitle" style="margin-bottom:25px;">Sign in to SmartQueue</h2>
+        <span style="position:absolute; right:25px; top:20px; cursor:pointer; font-size:1.5rem;" onclick="closeModal('loginModal')">✕</span>
+        <h2 id="modalTitle" style="margin-bottom:30px; font-size:1.8rem;">Sign in to SmartQueue</h2>
         <div class="input-group">
             <input type="text" id="userIn" placeholder="Username">
         </div>
@@ -144,7 +191,7 @@
             <input type="password" id="passIn" placeholder="Password">
         </div>
         <button class="btn-auth" id="mainBtn" onclick="loginAction()">Continue</button>
-        <p style="margin-top:20px; font-size:0.9rem;" id="switchText">
+        <p style="margin-top:25px; font-size:0.95rem;" id="switchText">
             ยังไม่มีบัญชี? <a href="#" onclick="toggleAuth(true)" style="color:var(--accent); font-weight:600;">สมัครสมาชิก</a>
         </p>
     </div>
@@ -178,9 +225,9 @@
         const user = localStorage.getItem('fitness_user');
         if(user) {
             document.getElementById('authArea').innerHTML = `
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span style="font-weight:600;"><i class="fas fa-user-circle"></i> ${user}</span>
-                    <button onclick="logout()" style="border:none; background:none; color:#ef4444; cursor:pointer;">Logout</button>
+                <div style="display:flex; align-items:center; gap:12px; background:#f1f5f9; padding:5px 15px; border-radius:50px;">
+                    <span style="font-weight:600; font-size:0.9rem;"><i class="fas fa-user-circle"></i> ${user}</span>
+                    <button onclick="logout()" style="border:none; background:none; color:#ef4444; cursor:pointer; font-weight:600; font-size:0.8rem;">Logout</button>
                 </div>`;
         }
     }
