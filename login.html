@@ -2,46 +2,78 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>เข้าสู่ระบบ | GymFlow</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - Fitness Center</title>
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #0f172a; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 100%; max-width: 380px; }
+        h2 { text-align: center; color: #1e293b; margin-bottom: 2rem; }
+        .input-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #475569; font-size: 0.9rem; }
+        input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; box-sizing: border-box; }
+        button { width: 100%; padding: 0.75rem; background-color: #2563eb; color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button:hover { background-color: #1d4ed8; }
+        .footer-links { margin-top: 1.5rem; text-align: center; font-size: 0.875rem; color: #64748b; }
+        a { color: #2563eb; text-decoration: none; font-weight: 600; }
+    </style>
 </head>
-<body class="bg-slate-900 flex items-center justify-center h-screen">
-    <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md">
-        <h2 class="text-3xl font-bold text-center mb-8 text-slate-800">ยินดีต้อนรับ</h2>
-        <div class="space-y-5">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">ชื่อผู้ใช้งาน</label>
-                <input type="text" id="user" class="w-full p-3 border border-gray-300 rounded-xl mt-1 focus:ring-2 focus:ring-blue-500 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">รหัสผ่าน</label>
-                <input type="password" id="pass" class="w-full p-3 border border-gray-300 rounded-xl mt-1 focus:ring-2 focus:ring-blue-500 outline-none">
-            </div>
-            <button onclick="handleLogin()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-lg hover:bg-blue-700 transition-all">เข้าสู่ระบบ</button>
-            <p class="text-center text-gray-500 text-sm">ทดสอบ: user: admin | pass: 1234</p>
-        </div>
+<body>
+
+<div class="login-card">
+    <h2>Fitness Center</h2>
+    <div class="input-group">
+        <label>ชื่อผู้ใช้งาน</label>
+        <input type="text" id="username" placeholder="กรอกชื่อผู้ใช้">
     </div>
+    <div class="input-group">
+        <label>รหัสผ่าน</label>
+        <input type="password" id="password" placeholder="กรอกรหัสผ่าน">
+    </div>
+    <button onclick="handleLogin()">เข้าสู่ระบบ</button>
+    <div class="footer-links">
+        ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิกที่นี่</a>
+    </div>
+</div>
 
-    <script>
-        async function handleLogin() {
-            const username = document.getElementById('user').value;
-            const password = document.getElementById('pass').value;
+<script>
+    async function handleLogin() {
+        const userField = document.getElementById('username').value;
+        const passField = document.getElementById('password').value;
 
-            const res = await fetch('http://localhost:3000/api/login', {
+        if (!userField || !passField) {
+            return alert("กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username: userField, password: passField })
             });
 
-            if (res.ok) {
-                const data = await res.json();
-                localStorage.setItem('user', JSON.stringify(data.user)); // เก็บสถานะ Login
-                alert('ยินดีต้อนรับคุณ ' + data.user.username);
-                window.location.href = 'index.html'; // ไปหน้าจอง
+            const data = await response.json();
+
+            if (response.ok) {
+                // เก็บข้อมูล User ลง SessionStorage
+                sessionStorage.setItem('user', JSON.stringify(data.user));
+                
+                alert(`ยินดีต้อนรับคุณ ${data.user.username}`);
+
+                // ตรวจสอบ Role และเปลี่ยนหน้า
+                if (data.user.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
             } else {
-                alert('รหัสผ่านไม่ถูกต้อง!');
+                alert(data.message || "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
             }
+        } catch (error) {
+            console.error("Login Error:", error);
+            alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ (ตรวจสอบว่ารัน node server.js หรือยัง?)");
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
