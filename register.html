@@ -4,24 +4,22 @@
     <meta charset="UTF-8">
     <title>สมัครสมาชิก - Fitness Center</title>
     <style>
-        body { font-family: 'Kanit', sans-serif; background-color: #0f172a; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center; }
-        h2 { color: #1e293b; margin-bottom: 1.5rem; }
-        input { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 0.5rem; box-sizing: border-box; }
-        button { width: 100%; padding: 0.8rem; background-color: #22c55e; color: white; border: none; border-radius: 0.5rem; font-size: 1rem; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #16a34a; }
-        .link { margin-top: 1rem; font-size: 0.9rem; color: #64748b; }
-        a { color: #2563eb; text-decoration: none; }
+        body { font-family: sans-serif; background-color: #0f172a; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 350px; text-align: center; }
+        h2 { color: #1e293b; }
+        input { width: 100%; padding: 0.8rem; margin: 10px 0; border: 1px solid #ddd; border-radius: 0.5rem; box-sizing: border-box; }
+        button { width: 100%; padding: 0.8rem; background: #22c55e; color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .link { margin-top: 15px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>สมัครสมาชิก</h2>
+        <h2>สร้างบัญชีใหม่</h2>
         <input type="text" id="reg_username" placeholder="ชื่อผู้ใช้งาน">
         <input type="email" id="reg_email" placeholder="อีเมล">
         <input type="password" id="reg_password" placeholder="รหัสผ่าน">
-        <button onclick="register()">ยืนยันการสมัคร</button>
-        <div class="link">มีบัญชีอยู่แล้ว? <a href="login.html">เข้าสู่ระบบ</a></div>
+        <button onclick="register()">สมัครสมาชิก</button>
+        <div class="link">มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></div>
     </div>
 
     <script>
@@ -39,15 +37,15 @@
                     body: JSON.stringify({ username, email, password })
                 });
 
-                const data = await res.json();
                 if (res.ok) {
-                    alert('สมัครสมาชิกสำเร็จ!');
+                    alert('สมัครสมาชิกสำเร็จ! ลองไป Login ดูนะ');
                     window.location.href = 'login.html';
                 } else {
+                    const data = await res.json();
                     alert(data.message);
                 }
             } catch (err) {
-                alert("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (เปิด node server.js หรือยัง?)");
+                alert("ลืมรัน node server.js หรือเปล่าครับ?");
             }
         }
     </script>
