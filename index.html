@@ -298,6 +298,69 @@
             document.getElementById('userBtn').onclick = null;
         }
     }
+    <li><a id="nav-con" onclick="scrollToContact()">ติดต่อเรา</a></li>
+
+<section id="contact-section" class="page-content" style="background: #fff; padding: 100px 8%;">
+    <div class="section-header">
+        <h2>Get In Touch</h2>
+        <p>มีข้อสงสัยหรือต้องการความช่วยเหลือ? ทีมงานของเราพร้อมดูแลคุณ</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; margin-top: 50px;">
+        <div class="contact-info">
+            <div style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 10px; color: var(--navy);">📍 ที่ตั้งของเรา</h3>
+                <p style="color: var(--slate);">123 ถนนสุขุมวิท แขวงคลองเตย <br>เขตคลองเตย กรุงเทพมหานคร 10110</p>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 10px; color: var(--navy);">📞 ข้อมูลติดต่อ</h3>
+                <p style="color: var(--slate);">โทร: 02-123-4567<br>อีเมล: support@smartqueue.com</p>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 10px; color: var(--navy);">⏰ เวลาทำการ</h3>
+                <p style="color: var(--slate);">เปิดบริการทุกวัน: 06:00 - 22:00 น.<br>(วันหยุดนักขัตฤกษ์: 08:00 - 20:00 น.)</p>
+            </div>
+        </div>
+
+        <div style="background: var(--light); padding: 40px; border-radius: 25px;">
+            <h3 style="margin-bottom: 20px;">ส่งข้อความถึงเรา</h3>
+            <form onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อย! เราจะติดต่อกลับโดยเร็วที่สุด');">
+                <input type="text" placeholder="ชื่อของคุณ" class="input-field" style="background: white; margin-top: 0;">
+                <input type="email" placeholder="อีเมล" class="input-field" style="background: white;">
+                <textarea placeholder="ข้อความที่ต้องการติดต่อ..." class="input-field" style="background: white; height: 120px; resize: none; padding-top: 15px;"></textarea>
+                <button type="submit" class="btn-main">ส่งข้อความ</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    // เพิ่มฟังก์ชันสำหรับเลื่อนหน้าจอไปยังส่วนติดต่อเรา
+    function scrollToContact() {
+        // ถ้าอยู่หน้าตารางสอน ให้สลับกลับมาหน้าแรกก่อน
+        showPage('equipment');
+        // เลื่อนไปยังตำแหน่งของ contact-section
+        const contactSec = document.getElementById('contact-section');
+        contactSec.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // แก้ไขฟังก์ชัน showPage ให้ปิด/เปิดส่วน Contact ด้วย
+    function showPage(page) {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        
+        if(page === 'equipment') {
+            document.getElementById('equipment-page').classList.add('page-active');
+            document.getElementById('contact-section').style.display = 'block'; // แสดงหน้าติดต่อในหน้าแรก
+            document.getElementById('nav-eq').classList.add('active');
+        } else if(page === 'schedule') {
+            document.getElementById('schedule-page').classList.add('page-active');
+            document.getElementById('contact-section').style.display = 'none'; // ซ่อนหน้าติดต่อเมื่อดูตารางสอน
+            document.getElementById('nav-sch').classList.add('active');
+        }
+    }
+</script>
 </script>
 </body>
 </html>
+
