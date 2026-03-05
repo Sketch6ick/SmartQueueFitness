@@ -3,239 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness - Premium Service</title>
+    <title>SmartQueue Fitness | ยกระดับการออกกำลังกายของคุณ</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
-        /* --- Base & Variables --- */
+        /* --- Root & Base --- */
+        :root { --primary: #2563eb; --navy: #0f172a; --slate: #64748b; --light: #f8fafc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-        body { background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
-        .navy-bg { background: #0f172a; color: white; }
+        body { background-color: var(--light); color: var(--navy); overflow-x: hidden; }
 
-        /* --- Navbar --- */
+        /* --- Navigation --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 8%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky; top: 0; z-index: 1000;
+            padding: 1.2rem 8%; background: white; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
-        .logo { font-size: 1.5rem; font-weight: 700; color: #2563eb; text-transform: uppercase; }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: #64748b; cursor: pointer; transition: 0.3s; }
-        .nav-links a.active { color: #2563eb; font-weight: 600; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-transform: uppercase; cursor: pointer; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--slate); font-weight: 400; transition: 0.3s; cursor: pointer; }
+        .nav-links a.active { color: var(--primary); font-weight: 600; }
+        .auth-btns { display: flex; align-items: center; gap: 1rem; }
+        .btn-signin { background: var(--navy); color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; }
 
-        .btn-login { background: #0f172a; color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; }
+        /* --- Hero Section (สไตล์ QuickStay) --- */
+        .hero {
+            height: 550px;
+            background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
+                        url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1600');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; padding: 0 8%; color: white;
+        }
+        .hero-content h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
+        .hero-content p { font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.9; }
+        .hero-search-bar { 
+            background: white; padding: 10px; border-radius: 15px; display: flex; 
+            max-width: 600px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+        }
+        .search-box { flex: 1; display: flex; align-items: center; padding: 0 20px; color: var(--navy); border-right: 1px solid #e2e8f0; }
+        .search-box i { color: var(--slate); margin-right: 15px; }
+        .btn-search { background: var(--navy); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; }
 
-        /* --- Page Control --- */
-        .page-content { display: none; padding: 4rem 8%; }
-        .page-active { display: block; animation: fadeIn 0.6s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- Content Layout --- */
+        .page-content { display: none; padding: 80px 8%; animation: fadeIn 0.6s ease; }
+        .page-active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- Equipment Grid --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
         .card:hover { transform: translateY(-10px); }
         .card img { width: 100%; height: 230px; object-fit: cover; }
-        .status-tag { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; }
+        .status-tag { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 6px 16px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
         .card-content { padding: 1.5rem; }
-        .btn-queue { width: 100%; display: block; text-align: center; background: #f1f5f9; padding: 12px; border-radius: 12px; text-decoration: none; color: #1e293b; font-weight: 600; margin-top: 1rem; }
-        .btn-queue:hover { background: #0f172a; color: white; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; }
+        .btn-book { background: var(--light); color: var(--navy); padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-book:hover { background: var(--navy); color: white; }
 
-        /* --- Testimonials (ส่วนรีวิวลูกค้า) --- */
-        .reviews-section { padding: 80px 8%; text-align: center; background: #fff; }
-        .reviews-title { margin-bottom: 50px; }
-        .reviews-title h2 { font-size: 2.2rem; margin-bottom: 10px; }
-        .reviews-title p { color: #64748b; max-width: 600px; margin: 0 auto; }
-        
-        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 40px; }
-        .review-card { background: #f8fafc; padding: 2.5rem; border-radius: 24px; text-align: left; position: relative; }
-        .user-info { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .user-info img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-        .stars { color: #f59e0b; margin-bottom: 15px; }
-        .review-text { color: #475569; font-style: italic; line-height: 1.6; }
+        /* --- Schedule Table --- */
+        .schedule-container { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow-x: auto; }
+        .sch-table { width: 100%; border-collapse: collapse; text-align: center; min-width: 700px; }
+        .sch-table th { padding: 20px; background: var(--navy); color: white; }
+        .sch-table td { padding: 15px; border: 1px solid #f1f5f9; }
+        .class-pill { padding: 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 500; }
+        .yoga { background: #dcfce7; color: #15803d; }
+        .hiit { background: #fee2e2; color: #b91c1c; }
+        .spin { background: #dbeafe; color: #1d4ed8; }
 
-        /* --- Newsletter (Stay Inspired) --- */
-        .newsletter-box { 
-            background: #0f172a; color: white; margin: 80px 8%; padding: 60px; 
-            border-radius: 30px; text-align: center; position: relative;
-        }
-        .newsletter-box h2 { font-size: 2rem; margin-bottom: 15px; }
-        .newsletter-box p { color: #94a3b8; margin-bottom: 30px; }
-        .input-group-news { display: flex; max-width: 500px; margin: 0 auto; gap: 10px; }
-        .input-news { flex: 1; padding: 15px 25px; border-radius: 12px; border: none; background: #1e293b; color: white; }
-        .btn-news { padding: 15px 30px; background: white; color: #0f172a; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
+        /* --- Testimonials --- */
+        .testimonials { background: white; padding: 100px 8%; text-align: center; }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 50px; }
+        .testi-card { background: var(--light); padding: 2.5rem; border-radius: 25px; text-align: left; }
+        .stars { color: #f59e0b; margin-bottom: 1rem; }
 
-        /* --- Footer (QuickStay Style) --- */
-        footer { padding: 60px 8%; background: #fff; border-top: 1px solid #e2e8f0; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
-        .footer-brand h2 { color: #0f172a; margin-bottom: 20px; }
-        .footer-brand p { color: #64748b; font-size: 0.9rem; line-height: 1.6; max-width: 300px; }
-        .footer-col h4 { margin-bottom: 20px; font-size: 1rem; color: #0f172a; }
-        .footer-col ul { list-style: none; }
-        .footer-col li { margin-bottom: 12px; }
-        .footer-col a { color: #64748b; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .footer-col a:hover { color: #2563eb; }
-        .social-icons { display: flex; gap: 15px; margin-top: 20px; font-size: 1.2rem; color: #64748b; }
+        /* --- Footer --- */
+        footer { background: white; padding: 80px 8% 30px; border-top: 1px solid #e2e8f0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; margin-bottom: 50px; }
+        .newsletter-box { background: var(--navy); color: white; padding: 60px; border-radius: 30px; text-align: center; margin-bottom: 80px; }
+        .newsletter-input { display: flex; gap: 10px; max-width: 500px; margin: 25px auto 0; }
+        .newsletter-input input { flex: 1; padding: 15px; border-radius: 10px; border: none; }
+        .btn-sub { background: white; color: var(--navy); padding: 0 25px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; }
 
         /* --- Modals --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .modal-content { background: white; padding: 3rem; border-radius: 30px; width: 95%; max-width: 450px; position: relative; text-align: center; }
-        .input-field { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f8fafc; }
-        .btn-continue { width: 100%; padding: 15px; background: #0f172a; color: white; border: none; border-radius: 12px; margin-top: 20px; cursor: pointer; font-weight: 600; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 3rem; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; position: relative; }
+        .input-field { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #e2e8f0; background: var(--light); }
+        .btn-main { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 12px; font-weight: 600; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo">💪 SmartQueue</div>
+    <div class="logo" onclick="showPage('equipment')">💪 SmartQueue</div>
     <ul class="nav-links">
         <li><a id="nav-eq" class="active" onclick="showPage('equipment')">หน้าแรก</a></li>
         <li><a id="nav-sch" onclick="showPage('schedule')">ตารางสอน</a></li>
-        <li><a href="#">ติดต่อเรา</a></li>
+        <li><a onclick="alert('ข้อมูลติดต่อ: 02-xxx-xxxx')">ติดต่อเรา</a></li>
     </ul>
-    <div id="authSection">
-        <a class="btn-login" id="userBtn" onclick="openLoginModal()">Sign In</a>
-        <a id="logoutBtn" onclick="handleLogout()" style="display:none; color:#ef4444; margin-left:15px; cursor:pointer;">Logout</a>
+    <div class="auth-btns">
+        <button class="btn-signin" id="userBtn" onclick="openLoginModal()">Sign In</button>
+        <a id="logoutBtn" onclick="handleLogout()" style="display:none; color: #ef4444; font-size: 0.9rem; cursor: pointer;">Logout</a>
     </div>
 </nav>
 
-<div id="equipment-page" class="page-content page-active">
-    <div style="text-align: center; margin-bottom: 50px;">
-        <h1 style="font-size: 2.5rem;">เครื่องเล่นและพื้นที่ใช้งาน</h1>
-        <p style="color: #64748b;">จองคิวออนไลน์ได้ทันที ไม่ต้องยืนรอนาน</p>
-    </div>
-    <div class="grid">
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div class="card-content"><h3>Treadmill Elite-X</h3><p>ลู่วิ่งไฮเทคพร้อมจอ Netflix</p><a onclick="bookEquipment('Treadmill')" class="btn-queue">จองเครื่องนี้</a></div></div>
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div class="card-content"><h3>Smith Machine</h3><p>เน้นอกและไหล่แบบปลอดภัย</p><a onclick="bookEquipment('Smith Machine')" class="btn-queue">จองเครื่องนี้</a></div></div>
-        <div class="card"><span class="status-tag" style="background:#f59e0b">In Use</span><img src="https://images.unsplash.com/photo-1434596922112-19c563067271?w=500"><div class="card-content"><h3>Leg Press</h3><p>ปั้นกล้ามขาให้ทรงพลัง</p><a onclick="bookEquipment('Leg Press')" class="btn-queue">ต่อคิว (คิวที่ 2)</a></div></div>
+<div class="hero">
+    <div class="hero-content">
+        <h1>จองฟิตเนสอัจฉริยะ<br>ให้คุณเล่นได้ ไม่ต้องรอ</h1>
+        <p>สัมผัสประสบการณ์การใช้งานยิมรูปแบบใหม่ จองคิวออนไลน์ผ่านมือถือได้ทุกที่</p>
+        <div class="hero-search-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="ค้นหาเครื่องเล่น เช่น ลู่วิ่ง, เวท..." style="border:none; outline:none; width:100%;">
+            </div>
+            <button class="btn-search" onclick="showPage('equipment')">ค้นหา</button>
+        </div>
     </div>
 </div>
 
-<div id="schedule-page" class="page-content">
-    <h1 style="text-align: center; margin-bottom: 30px;">📅 Class Schedule</h1>
+<div id="equipment-page" class="page-content page-active">
+    <div class="section-header">
+        <h2>เครื่องเล่นที่พร้อมใช้งาน</h2>
+        <p>เลือกเครื่องเล่นที่คุณต้องการและกดจองเพื่อรับลำดับคิว</p>
     </div>
+    <div class="grid" id="equipment-grid">
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div class="card-content"><h3>Treadmill Elite-X</h3><p>ลู่วิ่งไฟฟ้าแรงม้าสูง</p><div class="card-footer"><span>คิวที่ 0</span><a onclick="bookEquipment('Treadmill Elite-X')" class="btn-book">จองเครื่องนี้</a></div></div></div>
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div class="card-content"><h3>Smith Machine</h3><p>ส่วนอกและขาแบบเซฟตี้</p><div class="card-footer"><span>คิวที่ 0</span><a onclick="bookEquipment('Smith Machine')" class="btn-book">จองเครื่องนี้</a></div></div></div>
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1591940742878-13aba4b7a35e?w=600"><div class="card-content"><h3>Rowing Pro</h3><p>เครื่องพายเรือคาร์ดิโอ</p><div class="card-footer"><span>ว่าง</span><a onclick="bookEquipment('Rowing Pro')" class="btn-book">ใช้งาน</a></div></div></div>
+        <div class="card"><span class="status-tag" style="background:#f59e0b">In Use</span><img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600"><div class="card-content"><h3>Cable Station</h3><p>เคเบิลอเนกประสงค์</p><div class="card-footer"><span>คิวที่ 2</span><a onclick="bookEquipment('Cable Station')" class="btn-book">ต่อคิว</a></div></div></div>
+        </div>
+</div>
 
-<section class="reviews-section">
-    <div class="reviews-title">
-        <h2>What Our Members Say</h2>
-        <p>ความประทับใจจากสมาชิกที่ใช้งานระบบ SmartQueue เป็นประจำ</p>
+<div id="schedule-page" class="page-content">
+    <div class="section-header">
+        <h2>ตารางเรียนประจำสัปดาห์</h2>
+        <p>วางแผนการเข้าคลาสที่คุณชื่นชอบ</p>
     </div>
-    <div class="review-grid">
-        <div class="review-card">
-            <div class="user-info">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
-                <div><strong>Emma Rodriguez</strong><br><small>Bangkok, Thailand</small></div>
-            </div>
+    <div class="schedule-container">
+        <table class="sch-table">
+            <thead>
+                <tr><th>เวลา</th><th>จันทร์</th><th>อังคาร</th><th>พุธ</th><th>พฤหัสบดี</th><th>ศุกร์</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>08:00</td><td><div class="class-pill yoga">Power Yoga</div></td><td>-</td><td><div class="class-pill yoga">Power Yoga</div></td><td>-</td><td><div class="class-pill yoga">Power Yoga</div></td></tr>
+                <tr><td>18:00</td><td><div class="class-pill spin">Cycling</div></td><td><div class="class-pill hiit">Zumba HIIT</div></td><td><div class="class-pill spin">Cycling</div></td><td><div class="class-pill hiit">Zumba HIIT</div></td><td><div class="class-pill spin">Cycling</div></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<section class="testimonials">
+    <h2>What Our Members Say</h2>
+    <div class="testi-grid">
+        <div class="testi-card">
             <div class="stars">★★★★★</div>
-            <p class="review-text">"ตั้งแต่มีระบบจองคิว ชีวิตการเข้ายิมง่ายขึ้นมาก ไม่ต้องคอยยืนกดดันคนอื่นที่เล่นอยู่ รู้สึกเป็นส่วนตัวและจัดการเวลาได้ดีสุดๆ ค่ะ"</p>
+            <p>"ระบบจองคิวใช้งานง่ายมากครับ ไม่ต้องมายืนรอหน้าเครื่องให้เสียเวลา สบายใจขึ้นเยอะ!"</p>
+            <p style="margin-top:1.5rem"><strong>- คุณเอ็มม่า รอดริเกซ</strong></p>
         </div>
-        <div class="review-card">
-            <div class="user-info">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
-                <div><strong>Liam Johnson</strong><br><small>Nonthaburi</small></div>
-            </div>
-            <div class="stars">★★★★☆</div>
-            <p class="review-text">"ระบบใช้ง่ายมาก ล็อกอินผ่านมือถือแล้วกดจองจากที่บ้านก่อนมาถึงยิมได้เลย แนะนำให้เพื่อนๆ ใช้ทุกคนครับ"</p>
-        </div>
-        <div class="review-card">
-            <div class="user-info">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User">
-                <div><strong>Sophia Lee</strong><br><small>Pathum Thani</small></div>
-            </div>
+        <div class="testi-card">
             <div class="stars">★★★★★</div>
-            <p class="review-text">"ชอบส่วนของตารางสอนมากค่ะ ดูได้ตลอดว่าวันนี้มีคลาสโยคะตอนกี่โมง ดีไซน์เว็บสวยเหมือนแอปเมืองนอกเลย"</p>
+            <p>"ชอบตารางสอนที่ดูง่าย สลับหน้าไปมาได้เร็ว ดีไซน์เว็บสวยเหมือนแอปเมืองนอกเลยค่ะ"</p>
+            <p style="margin-top:1.5rem"><strong>- คุณโซเฟีย ลี</strong></p>
         </div>
     </div>
 </section>
 
-<div class="newsletter-box">
+<div class="newsletter-box" style="margin: 0 8% 80px;">
     <h2>Stay Inspired</h2>
     <p>รับเทคนิคการออกกำลังกายและอัปเดตคลาสใหม่ๆ ก่อนใคร</p>
-    <div class="input-group-news">
-        <input type="email" class="input-news" placeholder="Enter your email">
-        <button class="btn-news">Subscribe →</button>
+    <div class="newsletter-input">
+        <input type="email" placeholder="กรอกอีเมลของคุณ">
+        <button class="btn-sub">Subscribe →</button>
     </div>
 </div>
 
 <footer>
     <div class="footer-grid">
-        <div class="footer-brand">
-            <h2>💪 SmartQueue</h2>
-            <p>นวัตกรรมจัดการคิวฟิตเนสที่ทำให้การออกกำลังกายเป็นเรื่องง่ายและสนุกสำหรับทุกคน</p>
-            <div class="social-icons">
-                <i class="fab fa-instagram"></i> <i class="fab fa-facebook"></i> <i class="fab fa-twitter"></i> <i class="fab fa-line"></i>
+        <div>
+            <h2 style="color:var(--primary); margin-bottom:1.5rem">💪 SMARTQUEUE</h2>
+            <p style="color:var(--slate); font-size:0.9rem">นวัตกรรมจัดการคิวที่ทำให้การเข้ายิมเป็นเรื่องง่ายสำหรับทุกคน</p>
+        </div>
+        <div>
+            <h4>COMPANY</h4>
+            <p style="margin-top:1rem; font-size:0.9rem; color:var(--slate)">About Us<br>Careers<br>Blog</p>
+        </div>
+        <div>
+            <h4>SUPPORT</h4>
+            <p style="margin-top:1rem; font-size:0.9rem; color:var(--slate)">Help Center<br>Safety<br>Contact</p>
+        </div>
+        <div>
+            <h4>SOCIAL</h4>
+            <div style="display:flex; gap:15px; margin-top:1rem; font-size:1.2rem">
+                <i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i> <i class="fab fa-line"></i>
             </div>
         </div>
-        <div class="footer-col">
-            <h4>COMPANY</h4>
-            <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Blog</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>SUPPORT</h4>
-            <ul>
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Safety Rules</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>STAY UPDATED</h4>
-            <p style="font-size: 0.8rem; color:#64748b; margin-bottom: 10px;">สมัครสมาชิกจดหมายข่าว</p>
-            <input type="text" placeholder="Your email" style="width:100%; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
-        </div>
     </div>
-    <div style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between;">
-        <p>© 2026 SmartQueue Fitness. All rights reserved.</p>
-        <div>Privacy | Terms | Sitemap</div>
+    <div style="text-align:center; padding-top:30px; border-top:1px solid #f1f5f9; color:var(--slate); font-size:0.8rem">
+        © 2026 SmartQueue Fitness. All rights reserved.
     </div>
 </footer>
 
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
-        <h2 style="margin-bottom: 10px;">Sign in to SmartQueue</h2>
-        <p style="color:#64748b; margin-bottom: 25px;">ยินดีต้อนรับกลับมา! กรุณาเข้าสู่ระบบ</p>
+        <h2>Sign in to SmartQueue</h2>
+        <p style="color:var(--slate); margin-bottom:20px">ยินดีต้อนรับกลับมา! กรุณาเข้าสู่ระบบ</p>
         <input type="text" id="modalUsername" class="input-field" placeholder="Username">
         <input type="password" id="modalPassword" class="input-field" placeholder="Password">
-        <button class="btn-continue" onclick="handleModalLogin()">Continue</button>
-        <p style="margin-top: 20px; font-size: 0.9rem;">Don't have an account? <a href="#" style="color:#2563eb; font-weight:600;">Sign up</a></p>
+        <button class="btn-main" onclick="handleModalLogin()">Continue</button>
+        <p style="margin-top:20px; font-size:0.9rem">Don't have an account? <a onclick="switchToRegister()" style="color:var(--primary); cursor:pointer; font-weight:600">Sign up</a></p>
+    </div>
+</div>
+
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('registerModal')">✕</span>
+        <h2>Create Account</h2>
+        <input type="text" id="regUsername" class="input-field" placeholder="Create Username">
+        <input type="password" id="regPassword" class="input-field" placeholder="Create Password">
+        <button class="btn-main" onclick="handleModalRegister()" style="background:var(--primary)">Sign Up</button>
+        <p style="margin-top:20px; font-size:0.9rem">Already have an account? <a onclick="switchToLogin()" style="color:var(--primary); cursor:pointer; font-weight:600">Sign in</a></p>
     </div>
 </div>
 
 <script>
+    // สลับหน้า
     function showPage(page) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-        
         if(page === 'equipment') {
             document.getElementById('equipment-page').classList.add('page-active');
             document.getElementById('nav-eq').classList.add('active');
+            window.scrollTo({top: 500, behavior: 'smooth'}); // เลื่อนลงมาที่ส่วนจอง
         } else {
             document.getElementById('schedule-page').classList.add('page-active');
             document.getElementById('nav-sch').classList.add('active');
         }
     }
 
-    function openLoginModal() { document.getElementById('loginModal').style.display = "flex"; }
-    function closeModal(id) { document.getElementById(id).style.display = "none"; }
-    
-    // เชื่อมต่อ Backend เดิมของคุณ
+    // Modal Controls
+    function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function switchToRegister() { closeModal('loginModal'); document.getElementById('registerModal').style.display = 'flex'; }
+    function switchToLogin() { closeModal('registerModal'); openLoginModal(); }
+
+    // Backend Logic
     async function handleModalLogin() {
-        // ... (โค้ดเดิม) ...
+        const u = document.getElementById('modalUsername').value;
+        const p = document.getElementById('modalPassword').value;
+        try {
+            const res = await fetch('http://localhost:3000/api/login', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: u, password: p})
+            });
+            const data = await res.json();
+            if(res.ok) { sessionStorage.setItem('user', JSON.stringify(data.user)); location.reload(); }
+            else alert(data.message);
+        } catch(e) { alert("⚠️ เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (ลืมรัน node server.js?)"); }
     }
+
+    async function handleModalRegister() {
+        const u = document.getElementById('regUsername').value;
+        const p = document.getElementById('regPassword').value;
+        try {
+            const res = await fetch('http://localhost:3000/api/register', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: u, password: p})
+            });
+            if(res.ok) { alert("สมัครสมาชิกสำเร็จ!"); switchToLogin(); }
+            else { const d = await res.json(); alert(d.message); }
+        } catch(e) { alert("Error connecting to server"); }
+    }
+
+    async function bookEquipment(name) {
+        const userStr = sessionStorage.getItem('user');
+        if(!userStr) { alert("กรุณาล็อกอินก่อนจองครับ"); return openLoginModal(); }
+        const user = JSON.parse(userStr);
+        try {
+            const res = await fetch('http://localhost:3000/api/booking', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: user.username, equipment_name: name})
+            });
+            const data = await res.json();
+            alert(data.message);
+        } catch(e) { alert("ระบบจองขัดข้อง"); }
+    }
+
+    function handleLogout() { sessionStorage.clear(); location.reload(); }
 
     window.onload = function() {
         const user = sessionStorage.getItem('user');
         if(user) {
             document.getElementById('userBtn').innerText = 'คุณ ' + JSON.parse(user).username;
             document.getElementById('logoutBtn').style.display = 'inline';
+            document.getElementById('userBtn').onclick = null;
         }
     }
 </script>
-
 </body>
 </html>
