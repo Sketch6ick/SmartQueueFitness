@@ -9,7 +9,7 @@ app.use(express.json());
 // --- 1. การเชื่อมต่อ Supabase (แทนที่ MySQL เดิม) ---
 const db = new Pool({
   // *** สำคัญมาก: ใส่รหัสผ่านของคุณตรง [YOUR_PASSWORD] ***
-  connectionString: "postgres://postgres:Saget23009123@wwonapzimccwolnmfglh.supabase.co:5432/postgres",
+  connectionString: "postgres://postgres:saget23009pro@wwonapzimccwolnmfglh.supabase.co:5432/postgres",
   ssl: { rejectUnauthorized: false }
 });
 
@@ -91,4 +91,5 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server พร้อมทำงานที่ http://localhost:${PORT}`);
 });
+
 
