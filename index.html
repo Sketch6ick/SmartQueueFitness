@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFlow | Booking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-indigo-700 text-white p-4 shadow-md flex justify-between items-center px-10">
+        <h1 class="text-xl font-bold italic">GYMFLOW</h1>
+        <div id="user-info" class="text-sm"></div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="md:col-span-2">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">เลือกเครื่องเล่น (10 รายการ)</h2>
+            <div id="eq-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl shadow-xl border h-fit">
+            <h3 class="font-bold text-lg mb-4 text-indigo-600">ยืนยันเวลาจอง</h3>
+            <p id="sel-name" class="text-gray-500 mb-4 italic text-sm">ยังไม่ได้เลือกเครื่องเล่น</p>
+            <input type="hidden" id="sel-id">
+            <div class="space-y-4">
+                <input type="datetime-local" id="start" class="w-full border p-2 rounded-lg text-sm">
+                <input type="datetime-local" id="end" class="w-full border p-2 rounded-lg text-sm">
+                <button onclick="bookNow()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700">ยืนยันการจอง</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(!user) window.location.href = 'login.html';
+        document.getElementById('user-info').innerText = `สวัสดี, ${user.username} (${user.role})`;
+
+        async function loadEq() {
+            const res = await fetch('http://localhost:3000/api/equipments');
+            const data = await res.json();
+            document.getElementById('eq-grid').innerHTML = data.map(item => `
+                <div class="bg-white p-4 rounded-2xl shadow-sm border hover:border-indigo-400 transition-all cursor-pointer" onclick="selectItem(${item.id}, '${item.name}')">
+                    <div class="w-full h-24 bg-gray-100 rounded-lg mb-3 flex items-center justify-center text-gray-300"><i class="fas fa-dumbbell fa-2x"></i></div>
+                    <h4 class="font-bold">${item.name}</h4>
+                    <p class="text-xs text-gray-400">${item.type}</p>
+                </div>
+            `).join('');
+        }
+
+        function selectItem(id, name) {
+            document.getElementById('sel-id').value = id;
+            document.getElementById('sel-name').innerText = "เลือก: " + name;
+        }
+
+        async function bookNow() {
+            const res = await fetch('http://localhost:3000/api/book', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_id: user.id,
+                    equipment_id: document.getElementById('sel-id').value,
+                    start_time: document.getElementById('start').value,
+                    end_time: document.getElementById('end').value
+                })
+            });
+            const result = await res.json();
+            alert(result.message);
+        }
+        loadEq();
+    </script>
+</body>
+</html>
