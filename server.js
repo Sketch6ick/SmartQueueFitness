@@ -6,20 +6,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- 1. การเชื่อมต่อ Supabase (แทนที่ MySQL เดิม) ---
 const db = new Pool({
-  // *** สำคัญมาก: ใส่รหัสผ่านของคุณตรง [YOUR_PASSWORD] ***
-  connectionString: "postgres://postgres:saget23009pro@wwonapzimccwolnmfglh.supabase.co:5432/postgres",
-  ssl: { rejectUnauthorized: false }
+  // ตรวจสอบ: postgres://postgres:[รหัสผ่านไม่ต้องมีก้ามปู]@https://www.reddit.com/r/grammar/comments/4r9d5v/of_you_or_of_yours/?tl=th:5432/postgres
+  connectionString: "postgres://postgres:Fitness2026Success@wwonapzimccwolnmfglh.supabase.co:5432/postgres",
+  ssl: { 
+    rejectUnauthorized: false 
+  },
+  connectionTimeoutMillis: 5000 // เพิ่มเวลาให้มันรอนิดนึงถ้าเน็ตช้า
 });
 
-// ตรวจสอบการเชื่อมต่อ
-db.connect((err) => {
+// เปลี่ยนการดัก Error ให้ละเอียดขึ้นเพื่อดูว่ามันด่าเราว่าอะไร
+db.connect((err, client, release) => {
   if (err) {
-    console.error('❌ เชื่อมต่อ Supabase ล้มเหลว:', err.message);
-    console.log('กรุณาเช็คว่าใส่ Password ถูกต้อง และอินเทอร์เน็ตใช้งานได้');
+    console.error('❌ เชื่อ homework Supabase ล้มเหลวเพราะ:', err.message); // มันจะบอกสาเหตุจริงๆ ออกมา
   } else {
-    console.log('✅ เชื่อมต่อ Supabase สำเร็จ! (พอร์ต 5432)');
+    console.log('✅ เชื่อมต่อ Supabase สำเร็จ! พอร์ต 5432 พร้อมลุย');
+    release(); // ปล่อยการเชื่อมต่อกลับคืน Pool
   }
 });
 
@@ -91,5 +93,6 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server พร้อมทำงานที่ http://localhost:${PORT}`);
 });
+
 
 
