@@ -39,6 +39,34 @@ app.post('/api/book', (req, res) => {
         if (err) res.status(500).json(err);
         else res.json({ message: 'จองสำเร็จ!' });
     });
+    // ดึงรายชื่อสมาชิกทั้งหมด
+app.get('/api/admin/users', (req, res) => {
+    db.query('SELECT id, username, role FROM users', (err, results) => {
+        res.json(results);
+    });
 });
+
+// ลบสมาชิก
+app.delete('/api/admin/users/:id', (req, res) => {
+    db.query('DELETE FROM users WHERE id = ?', [req.params.id], (err) => {
+        res.json({ message: 'ลบสมาชิกเรียบร้อย' });
+    });
+});
+
+// ดึงรายการเครื่องเล่นทั้งหมด (สำหรับ Admin)
+app.get('/api/admin/equipments', (req, res) => {
+    db.query('SELECT * FROM equipments', (err, results) => {
+        res.json(results);
+    });
+});
+
+// ลบเครื่องเล่น
+app.delete('/api/admin/equipments/:id', (req, res) => {
+    db.query('DELETE FROM equipments WHERE id = ?', [req.params.id], (err) => {
+        res.json({ message: 'ลบเครื่องเล่นเรียบร้อย' });
+    });
+});
+});
+
 
 app.listen(3000, () => console.log('Server running on port 3000'));
