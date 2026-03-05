@@ -9,7 +9,7 @@ app.use(express.json());
 // --- 1. การเชื่อมต่อฐานข้อมูล Supabase (Postgres) ---
 const db = new Pool({
   // เปลี่ยน [YOUR_PASSWORD] เป็นรหัสผ่านที่คุณตั้งไว้ใน Supabase
-  connectionString: "postgres://postgres:[kriss2300954]@wwonapzimccwolnmfglh.supabase.co:5432/postgres",
+  connectionString: "postgres://postgres:kriss2300954@wwonapzimccwolnmfglh.supabase.co:5432/postgres",
   ssl: { rejectUnauthorized: false }
 });
 
@@ -98,3 +98,4 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server กำลังรันที่ http://localhost:${PORT}`);
 });
+
