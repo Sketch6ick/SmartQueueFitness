@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness | Premium Member Experience</title>
+    <title>SmartQueue Fitness</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -11,76 +11,59 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
         body { background-color: var(--light); color: var(--navy); }
 
-        /* --- Navigation & Account Dropdown --- */
+        /* --- Navigation --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.2rem 8%; background: white; position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-transform: uppercase; cursor: pointer; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); cursor: pointer; }
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--slate); font-weight: 400; transition: 0.3s; cursor: pointer; }
-        .nav-links a.active { color: var(--primary); font-weight: 600; }
-        
-        .auth-btns { display: flex; align-items: center; gap: 1rem; position: relative; }
-        .btn-signin { background: var(--navy); color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; }
-        
-        /* Dropdown Menu */
-        .account-menu { display: none; position: absolute; top: 100%; right: 0; background: white; min-width: 180px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 12px; margin-top: 15px; overflow: hidden; }
-        .account-menu.show { display: block; animation: slideDown 0.3s ease; }
-        .account-menu a { display: block; padding: 12px 20px; color: var(--navy); text-decoration: none; font-size: 0.9rem; transition: 0.2s; cursor: pointer; }
-        .account-menu a:hover { background: var(--light); color: var(--primary); }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-links a { text-decoration: none; color: var(--slate); cursor: pointer; }
 
-        /* --- Content Layout --- */
-        .page-content { display: none; padding: 80px 8%; animation: fadeIn 0.6s ease; }
-        .page-active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Account & Dropdown */
+        .auth-btns { position: relative; }
+        .btn-user { background: var(--navy); color: white; padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .dropdown-menu { display: none; position: absolute; top: 110%; right: 0; background: white; min-width: 200px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; z-index: 1001; }
+        .dropdown-menu.active { display: block; }
+        .dropdown-menu a { display: block; padding: 12px 20px; color: var(--navy); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; }
+        .dropdown-menu a:hover { background: var(--light); }
 
-        /* --- Hero Section --- */
-        .hero {
-            height: 500px;
-            background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
-                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600');
-            background-size: cover; background-position: center;
-            display: flex; align-items: center; padding: 0 8%; color: white;
-        }
-
-        /* --- Equipment Grid --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
-        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
-        .card img { width: 100%; height: 230px; object-fit: cover; }
-        .status-tag { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 6px 16px; border-radius: 50px; font-size: 0.75rem; }
-        .btn-book { width:100%; display:block; text-align:center; background: var(--light); color: var(--navy); padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; margin-top: 1rem; cursor: pointer; }
+        /* --- Hero --- */
+        .hero { height: 450px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 8%; color: white; }
 
         /* --- Modals --- */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 3rem; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; position: relative; }
-        .input-field { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #e2e8f0; background: var(--light); outline: none; }
-        .btn-main { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 12px; font-weight: 600; margin-top: 20px; cursor: pointer; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 40px; border-radius: 25px; width: 100%; max-width: 400px; text-align: center; position: relative; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 5px; outline: none; }
+        .btn-continue { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .switch-text { margin-top: 20px; font-size: 0.85rem; color: var(--slate); }
+        .switch-text span { color: var(--primary); font-weight: 600; cursor: pointer; }
+
+        /* --- Contact --- */
+        #contact-section { padding: 80px 8%; background: white; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo" onclick="showPage('equipment')">💪 SmartQueue</div>
+    <div class="logo">💪 SmartQueue</div>
     <ul class="nav-links">
-        <li><a id="nav-eq" class="active" onclick="showPage('equipment')">หน้าแรก</a></li>
-        <li><a id="nav-sch" onclick="showPage('schedule')">ตารางสอน</a></li>
-        <li><a id="nav-con" onclick="scrollToContact()">ติดต่อเรา</a></li>
+        <li><a onclick="location.reload()">หน้าแรก</a></li>
+        <li><a onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})">ติดต่อเรา</a></li>
     </ul>
     <div class="auth-btns">
-        <div id="loggedOutUI">
-            <button class="btn-signin" onclick="openModal('loginModal')">Sign In</button>
+        <div id="loggedOut">
+            <button class="btn-user" onclick="openModal('loginModal')">Sign In</button>
         </div>
-        <div id="loggedInUI" style="display: none;">
-            <button class="btn-signin" onclick="toggleAccountMenu()">
-                <i class="fas fa-user-circle"></i> <span id="userNameDisplay">User</span> <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+        <div id="loggedIn" style="display: none;">
+            <button class="btn-user" onclick="toggleDropdown()">
+                <i class="fas fa-user-circle"></i> <span id="displayUser">User</span> <i class="fas fa-chevron-down"></i>
             </button>
-            <div id="accountDropdown" class="account-menu">
+            <div id="userDropdown" class="dropdown-menu">
                 <a onclick="alert('ไปหน้าตั้งค่าบัญชี...')"><i class="fas fa-cog"></i> ตั้งค่าบัญชี</a>
-                <a onclick="alert('ประวัติการจองของคุณ...')"><i class="fas fa-history"></i> ประวัติการจอง</a>
-                <hr style="border: 0.5px solid #f1f5f9;">
+                <a onclick="alert('ประวัติการจอง...')"><i class="fas fa-calendar-check"></i> ประวัติการจอง</a>
                 <a onclick="handleLogout()" style="color: #ef4444;"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
             </div>
         </div>
@@ -88,69 +71,52 @@
 </nav>
 
 <div class="hero">
-    <div class="hero-content">
-        <h1 style="font-size: 3rem;">จองคิวฟิตเนสอัจฉริยะ<br>ง่ายๆ เพียงปลายนิ้ว</h1>
-    </div>
+    <h1>ยกระดับการออกกำลังกาย<br>ในแบบอัจฉริยะ</h1>
 </div>
 
-<div id="equipment-page" class="page-content page-active">
-    <div class="grid">
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div style="padding:1.5rem;"><h3>Treadmill Elite</h3><a onclick="bookEquipment('Treadmill')" class="btn-book">จองเครื่องนี้</a></div></div>
-        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div style="padding:1.5rem;"><h3>Smith Machine</h3><a onclick="bookEquipment('Smith Machine')" class="btn-book">จองเครื่องนี้</a></div></div>
-    </div>
-
-    <section id="contact-section" style="margin-top: 100px;">
-        <h2>ติดต่อเรา</h2>
-        <div style="margin-top: 20px;">
-            <p><strong>Facebook:</strong> SmartQueueFN</p>
-            <p><strong>Tel:</strong> 089-091-2425</p>
+<section id="contact-section">
+    <h2>ติดต่อเรา</h2>
+    <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div>
+            <p style="margin-bottom: 15px;"><i class="fab fa-facebook" style="color:#1877f2"></i> <strong>Facebook:</strong> SmartQueueFN</p>
+            <p><i class="fas fa-phone" style="color:#22c55e"></i> <strong>Tel:</strong> 0890912425</p>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 
 <div id="loginModal" class="modal">
     <div class="modal-content">
-        <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
-        <h2>เข้าสู่ระบบ</h2>
-        <input type="text" id="loginUser" class="input-field" placeholder="Username">
-        <input type="password" id="loginPass" class="input-field" placeholder="Password">
-        <button class="btn-main" onclick="handleLogin()">Sign In</button>
-        <p style="margin-top: 20px; font-size: 0.9rem;">ยังไม่มีบัญชี? <a onclick="openModal('regModal')" style="color: var(--primary); cursor: pointer; font-weight: 600;">สมัครสมาชิกฟรี</a></p>
+        <span style="position:absolute; right:20px; top:15px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
+        <h2 style="margin-bottom: 25px;">Sign in to SmartQueue</h2>
+        <div class="input-group"><input type="text" id="loginU" placeholder="Username"></div>
+        <div class="input-group"><input type="password" id="loginP" placeholder="Password"></div>
+        <button class="btn-continue" onclick="doLogin()">Continue</button>
+        <p class="switch-text">Don't have an account? <span onclick="openModal('regModal')">สมัครสมาชิกฟรี</span></p>
     </div>
 </div>
 
 <div id="regModal" class="modal">
     <div class="modal-content">
-        <span style="position:absolute; right:25px; top:20px; cursor:pointer;" onclick="closeModal('regModal')">✕</span>
-        <h2>สมัครสมาชิก</h2>
-        <p style="color: var(--slate); margin-bottom: 20px;">เข้าร่วมเป็นส่วนหนึ่งของ SmartQueue</p>
-        <input type="text" id="regUser" class="input-field" placeholder="ตั้งชื่อผู้ใช้งาน">
-        <input type="password" id="regPass" class="input-field" placeholder="ตั้งรหัสผ่าน">
-        <button class="btn-main" onclick="handleRegister()" style="background: var(--primary);">สร้างบัญชี</button>
-        <p style="margin-top: 20px; font-size: 0.9rem;">มีบัญชีอยู่แล้ว? <a onclick="openModal('loginModal')" style="color: var(--navy); cursor: pointer; font-weight: 600;">ล็อกอิน</a></p>
+        <span style="position:absolute; right:20px; top:15px; cursor:pointer;" onclick="closeModal('regModal')">✕</span>
+        <h2 style="margin-bottom: 25px;">Create Account</h2>
+        <div class="input-group"><input type="text" id="regU" placeholder="เลือก Username"></div>
+        <div class="input-group"><input type="password" id="regP" placeholder="ตั้งรหัสผ่าน"></div>
+        <button class="btn-continue" onclick="doRegister()" style="background: var(--primary);">สมัครสมาชิก</button>
+        <p class="switch-text">มีบัญชีอยู่แล้ว? <span onclick="openModal('loginModal')">เข้าสู่ระบบ</span></p>
     </div>
 </div>
 
 <script>
-    function showPage(page) {
-        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
-        if(page === 'equipment') document.getElementById('equipment-page').classList.add('page-active');
-    }
-
-    function scrollToContact() { document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' }); }
-
     function openModal(id) {
-        closeModal('loginModal'); closeModal('regModal');
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
         document.getElementById(id).style.display = 'flex';
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function toggleDropdown() { document.getElementById('userDropdown').classList.toggle('active'); }
 
-    function toggleAccountMenu() { document.getElementById('accountDropdown').classList.toggle('show'); }
-
-    // Backend Logic
-    async function handleLogin() {
-        const u = document.getElementById('loginUser').value;
-        const p = document.getElementById('loginPass').value;
+    async function doLogin() {
+        const u = document.getElementById('loginU').value;
+        const p = document.getElementById('loginP').value;
         try {
             const res = await fetch('http://localhost:3000/api/login', {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -159,20 +125,20 @@
             const data = await res.json();
             if(res.ok) { sessionStorage.setItem('user', JSON.stringify(data.user)); location.reload(); }
             else alert(data.message);
-        } catch(e) { alert("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้"); }
+        } catch(e) { alert("กรุณารัน server.js ก่อนครับ"); }
     }
 
-    async function handleRegister() {
-        const u = document.getElementById('regUser').value;
-        const p = document.getElementById('regPass').value;
+    async function doRegister() {
+        const u = document.getElementById('regU').value;
+        const p = document.getElementById('regP').value;
         try {
             const res = await fetch('http://localhost:3000/api/register', {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({username: u, password: p})
             });
-            if(res.ok) { alert("สมัครสำเร็จ! กรุณาล็อกอิน"); openModal('loginModal'); }
+            if(res.ok) { alert("สมัครสำเร็จ! กรุณาล็อกอินครับ"); openModal('loginModal'); }
             else { const d = await res.json(); alert(d.message); }
-        } catch(e) { alert("เกิดข้อผิดพลาด"); }
+        } catch(e) { alert("ระบบสมัครขัดข้อง"); }
     }
 
     function handleLogout() { sessionStorage.clear(); location.reload(); }
@@ -180,16 +146,15 @@
     window.onload = function() {
         const user = sessionStorage.getItem('user');
         if(user) {
-            document.getElementById('loggedOutUI').style.display = 'none';
-            document.getElementById('loggedInUI').style.display = 'block';
-            document.getElementById('userNameDisplay').innerText = JSON.parse(user).username;
+            document.getElementById('loggedOut').style.display = 'none';
+            document.getElementById('loggedIn').style.display = 'block';
+            document.getElementById('displayUser').innerText = JSON.parse(user).username;
         }
-        // ปิดเมนูเมื่อคลิกที่อื่น
-        window.onclick = function(event) {
-            if (!event.target.closest('.auth-btns')) {
-                document.getElementById('accountDropdown').classList.remove('show');
-            }
-        }
+    };
+    
+    // ปิด dropdown เมื่อคลิกที่อื่น
+    window.onclick = function(e) {
+        if (!e.target.closest('.auth-btns')) document.getElementById('userDropdown').classList.remove('active');
     }
 </script>
 </body>
