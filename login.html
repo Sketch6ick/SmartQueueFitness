@@ -3,63 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เข้าสู่ระบบ - Fitness Center</title>
+    <title>Fitness Login - เข้าสู่ระบบ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Kanit', sans-serif; background-color: #0f172a; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 100%; max-width: 380px; }
-        h2 { text-align: center; color: #1e293b; margin-bottom: 2rem; }
-        .input-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 0.5rem; color: #475569; font-size: 0.9rem; }
-        input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; box-sizing: border-box; }
-        button { width: 100%; padding: 0.75rem; background-color: #2563eb; color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        button:hover { background-color: #1d4ed8; }
-        .footer-links { margin-top: 1.5rem; text-align: center; font-size: 0.875rem; color: #64748b; }
-        a { color: #2563eb; text-decoration: none; font-weight: 600; }
+        /* ส่วนตกแต่งหน้าตา (CSS) ให้ดูโปรเหมือนเว็บเพื่อน */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* พื้นหลังไล่เฉดสีเข้มแบบ Premium */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.05); /* กล่องแบบกระจกโปร่งแสง (Glassmorphism) */
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        h2 { color: #ffffff; margin-bottom: 30px; font-weight: 600; letter-spacing: 1px; }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+
+        label { color: #cbd5e1; display: block; margin-bottom: 8px; font-size: 0.9rem; }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus { border-color: #3b82f6; background: rgba(255, 255, 255, 0.15); }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+        .footer { margin-top: 20px; color: #94a3b8; font-size: 0.85rem; }
+        .footer a { color: #3b82f6; text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div class="login-card">
-    <h2>Fitness Center</h2>
+<div class="login-container">
+    <h2>FITNESS CENTER</h2>
+    
     <div class="input-group">
-        <label>ชื่อผู้ใช้งาน</label>
-        <input type="text" id="username" placeholder="กรอกชื่อผู้ใช้">
+        <label>ชื่อผู้ใช้งาน (Username)</label>
+        <input type="text" id="username" placeholder="ระบุชื่อผู้ใช้งาน">
     </div>
+
     <div class="input-group">
-        <label>รหัสผ่าน</label>
-        <input type="password" id="password" placeholder="กรอกรหัสผ่าน">
+        <label>รหัสผ่าน (Password)</label>
+        <input type="password" id="password" placeholder="ระบุรหัสผ่าน">
     </div>
+
     <button onclick="handleLogin()">เข้าสู่ระบบ</button>
-    <div class="footer-links">
-        ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิกที่นี่</a>
+
+    <div class="footer">
+        ยังไม่เป็นสมาชิก? <a href="register.html">สมัครสมาชิกที่นี่</a>
     </div>
 </div>
 
 <script>
     async function handleLogin() {
-        const userField = document.getElementById('username').value;
-        const passField = document.getElementById('password').value;
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
 
-        if (!userField || !passField) {
-            return alert("กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
-        }
+        if (!u || !p) return alert("กรุณากรอกข้อมูลให้ครบถ้วน");
 
         try {
+            // ยิงไปที่ Server ของคุณที่พอร์ต 3000
             const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: userField, password: passField })
+                body: JSON.stringify({ username: u, password: p })
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                // เก็บข้อมูล User ลง SessionStorage
+                // บันทึกข้อมูลลงเครื่องเพื่อใช้ในหน้าถัดไป
                 sessionStorage.setItem('user', JSON.stringify(data.user));
                 
-                alert(`ยินดีต้อนรับคุณ ${data.user.username}`);
+                alert("ยินดีต้อนรับเข้าสู่ระบบ!");
 
-                // ตรวจสอบ Role และเปลี่ยนหน้า
+                // ตรวจสอบสิทธิ์และเปลี่ยนหน้าไปยังไฟล์ที่มีในเครื่อง
                 if (data.user.role === 'admin') {
                     window.location.href = 'admin.html';
                 } else {
@@ -70,7 +126,7 @@
             }
         } catch (error) {
             console.error("Login Error:", error);
-            alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ (ตรวจสอบว่ารัน node server.js หรือยัง?)");
+            alert("⚠️ ติดต่อ Server ไม่ได้! ตรวจสอบว่ารัน 'node server.js' อยู่หรือไม่");
         }
     }
 </script>
