@@ -2,71 +2,305 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>GymFlow | Booking System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQueue Fitness - จองคิวเครื่องเล่นอัจฉริยะ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #2563eb; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: #64748b; font-weight: 400; transition: 0.3s; }
+        .nav-links a:hover { color: #2563eb; }
+
+        .btn-login {
+            background: #000; color: white; padding: 10px 28px;
+            border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s; cursor: pointer;
+        }
+        .btn-login:hover { background: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+        /* --- Header --- */
+        header { text-align: center; padding: 5rem 1rem; background: #fff; }
+        header h1 { font-size: 2.8rem; margin-bottom: 1rem; color: #0f172a; }
+        header p { color: #64748b; max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+
+        /* --- Grid & Equipment Cards --- */
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem; padding: 2rem 8%;
+        }
+        .card {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.4s;
+            position: relative; border: 1px solid #f1f5f9;
+        }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 20px 30px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        
+        .status-tag {
+            position: absolute; top: 15px; left: 15px; background: #22c55e;
+            color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 600;
+        }
+
+        .card-content { padding: 1.5rem; }
+        .card h3 { font-size: 1.3rem; margin-bottom: 8px; color: #0f172a; }
+        .card p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5; }
+        
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1.2rem; border-top: 1px solid #f1f5f9; }
+        .price { font-weight: 700; font-size: 1.2rem; color: #2563eb; }
+        .btn-queue { 
+            background: white; border: 1.5px solid #e2e8f0; padding: 8px 20px; 
+            border-radius: 12px; text-decoration: none; color: #1e293b; 
+            font-size: 0.9rem; font-weight: 600; transition: 0.2s;
+        }
+        .btn-queue:hover { background: #0f172a; color: white; border-color: #0f172a; }
+
+        /* --- New Premium Modal Style (Login & Register) --- */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); 
+            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fefefe; padding: 3rem; border-radius: 20px;
+            width: 90%; max-width: 450px; position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center;
+            animation: fadeInModal 0.4s ease-out;
+        }
+        @keyframes fadeInModal { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .close-btn { color: #94a3b8; position: absolute; right: 1.5rem; top: 1rem; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
+        .close-btn:hover { color: #1e293b; }
+        
+        .modal-content h2 { font-size: 1.75rem; color: #0f172a; margin-bottom: 0.75rem; }
+        .modal-sub-text { color: #64748b; margin-bottom: 2.5rem; font-size: 1rem; }
+
+        .input-group { margin-bottom: 1.25rem; text-align: left; }
+        .input-label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: #1e293b; font-weight: 500; }
+        .input-field { width: 100%; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; transition: border-color 0.2s; background-color: #f8fafc; }
+        .input-field:focus { outline: none; border-color: #1e293b; background-color: #fff; }
+
+        .btn-continue { width: 100%; padding: 1.1rem; background: #1e293b; color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; transition: 0.3s; }
+        .btn-continue:hover { background: #000; transform: translateY(-2px); }
+
+        .modal-footer { margin-top: 2rem; font-size: 0.9rem; color: #64748b; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; }
+        .modal-footer a { color: #2563eb; text-decoration: none; font-weight: 600; }
+
+        /* --- Footer --- */
+        footer { background-color: #fff; padding: 60px 8% 30px; border-top: 1px solid #e2e8f0; margin-top: 50px; }
+        .footer-container { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-brand h2 { font-size: 1.5rem; margin-bottom: 15px; color: #0f172a; }
+        .footer-brand p { color: #64748b; line-height: 1.6; font-size: 0.9rem; }
+        .footer-column h4 { margin-bottom: 20px; font-size: 1rem; color: #0f172a; text-transform: uppercase; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul li a { text-decoration: none; color: #64748b; font-size: 0.9rem; transition: 0.3s; }
+        .footer-bottom { padding-top: 30px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; color: #94a3b8; font-size: 0.85rem; }
+    </style>
 </head>
-<body class="bg-gray-50">
-    <nav class="bg-indigo-700 text-white p-4 shadow-md flex justify-between items-center px-10">
-        <h1 class="text-xl font-bold italic">GYMFLOW</h1>
-        <div id="user-info" class="text-sm"></div>
-    </nav>
+<body>
 
-    <div class="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="md:col-span-2">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800">เลือกเครื่องเล่น (10 รายการ)</h2>
-            <div id="eq-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+<nav>
+    <div class="logo">💪 SmartQueue</div>
+    <ul class="nav-links">
+        <li><a href="index.html">หน้าแรก</a></li>
+        <li><a href="#" onclick="alert('ระบบตารางสอนกำลังจะเปิดให้บริการเร็วๆ นี้!')">ตารางสอน</a></li>
+        <li><a href="contact.html">ติดต่อเรา</a></li>
+    </ul>
+    <div id="authSection" style="display: flex; align-items: center;">
+        <a class="btn-login" id="userBtn" onclick="openLoginModal()">ล็อกอิน</a>
+        <a href="#" id="logoutBtn" onclick="handleLogout()" 
+           style="display:none; color: #ef4444; margin-left: 15px; text-decoration: none; font-weight: 600;">
+           ออกจากระบบ
+        </a>
+    </div>
+</nav>
+
+<header>
+    <h1>SmartQueue Fitness</h1>
+    <p>ยกระดับการออกกำลังกายด้วยระบบจองคิวเครื่องเล่นอัจฉริยะ ไม่ต้องยืนรอนาน จัดการเวลาได้ดีกว่าเดิม</p>
+</header>
+
+<div class="grid">
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div class="card-content"><h3>Treadmill Elite-X</h3><p>ลู่วิ่งไฟฟ้าแรงม้าสูง พร้อมหน้าจอสัมผัส</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Treadmill Elite-X')">จองเครื่องนี้</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div class="card-content"><h3>Smith Machine</h3><p>เครื่องเล่นอเนกประสงค์ส่วนอกและขา</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Smith Machine')">จองเครื่องนี้</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?w=500"><div class="card-content"><h3>Free Weight Zone</h3><p>ชุดดัมเบลครบเซต 2.5kg - 50kg</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Free Weight')">ใช้งานโซนนี้</a></div></div></div>
+    <div class="card"><span class="status-tag" style="background:#f59e0b">ไม่ว่าง (In Use)</span><img src="https://images.unsplash.com/photo-1434596922112-19c563067271?w=500"><div class="card-content"><h3>Leg Press Machine</h3><p>สร้างกล้ามเนื้อขาให้แข็งแกร่ง</p><div class="card-footer"><span class="price">คิวที่ 3</span><a href="#" class="btn-queue" onclick="bookEquipment('Leg Press')">ต่อคิว</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1590239926620-1374bf1ff371?w=500"><div class="card-content"><h3>Spinning Bike</h3><p>เบิร์นแคลอรี่อย่างเข้มข้น</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Spinning Bike')">จองเครื่องนี้</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1591033594798-33227a05780d?w=500"><div class="card-content"><h3>Lat Pulldown</h3><p>เครื่องเล่นสร้างกล้ามเนื้อหลัง</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Lat Pulldown')">จองเครื่องนี้</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=500"><div class="card-content"><h3>Yoga Area</h3><p>พื้นที่กว้างขวางสำหรับยืดเหยียด</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Yoga Area')">เข้าใช้พื้นที่</a></div></div></div>
+    <div class="card"><span class="status-tag" style="background:#ef4444">ปิดปรับปรุง</span><img src="https://images.unsplash.com/photo-1517838823420-4d7d03c856ed?w=500"><div class="card-content"><h3>Dual Cable Cross</h3><p>เครื่องเคเบิลอเนกประสงค์</p><div class="card-footer"><span class="price">X</span><a href="#" class="btn-queue" style="opacity:0.5; pointer-events:none">งดใช้งาน</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500"><div class="card-content"><h3>Olympic Barbell</h3><p>บาร์เบลมาตรฐานโอลิมปิก</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Olympic Barbell')">ใช้งานโซนนี้</a></div></div></div>
+    <div class="card"><span class="status-tag">ว่าง (Available)</span><img src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=500"><div class="card-content"><h3>Elliptical Trainer</h3><p>ถนอมข้อเข่าและเบิร์นได้ดี</p><div class="card-footer"><span class="price">คิวที่ 0</span><a href="#" class="btn-queue" onclick="bookEquipment('Elliptical')">จองเครื่องนี้</a></div></div></div>
+</div>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></span>
+        <h2>Sign in to SmartQueue</h2>
+        <p class="modal-sub-text">ยินดีต้อนรับกลับมา! กรุณาเข้าสู่ระบบ</p>
+        <div class="input-group">
+            <label class="input-label">Username</label>
+            <input type="text" id="modalUsername" class="input-field" placeholder="Enter your username">
         </div>
-
-        <div class="bg-white p-6 rounded-3xl shadow-xl border h-fit">
-            <h3 class="font-bold text-lg mb-4 text-indigo-600">ยืนยันเวลาจอง</h3>
-            <p id="sel-name" class="text-gray-500 mb-4 italic text-sm">ยังไม่ได้เลือกเครื่องเล่น</p>
-            <input type="hidden" id="sel-id">
-            <div class="space-y-4">
-                <input type="datetime-local" id="start" class="w-full border p-2 rounded-lg text-sm">
-                <input type="datetime-local" id="end" class="w-full border p-2 rounded-lg text-sm">
-                <button onclick="bookNow()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700">ยืนยันการจอง</button>
-            </div>
+        <div class="input-group">
+            <label class="input-label">Password</label>
+            <input type="password" id="modalPassword" class="input-field" placeholder="Enter your password">
+        </div>
+        <button class="btn-continue" onclick="handleModalLogin()">
+            Continue <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+        </button>
+        <div class="modal-footer">
+            Don't have an account? <a href="#" onclick="switchToRegister()">Sign up</a>
         </div>
     </div>
+</div>
 
-    <script>
-        const user = JSON.parse(localStorage.getItem('user'));
-        if(!user) window.location.href = 'login.html';
-        document.getElementById('user-info').innerText = `สวัสดี, ${user.username} (${user.role})`;
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('registerModal')"><i class="fas fa-times"></i></span>
+        <h2>Create Account</h2>
+        <p class="modal-sub-text">สมัครสมาชิกเพื่อเริ่มจองคิวเครื่องเล่น</p>
+        <div class="input-group">
+            <label class="input-label">Username</label>
+            <input type="text" id="regUsername" class="input-field" placeholder="Choose a username">
+        </div>
+        <div class="input-group">
+            <label class="input-label">Password</label>
+            <input type="password" id="regPassword" class="input-field" placeholder="Create a password">
+        </div>
+        <button class="btn-continue" onclick="handleModalRegister()" style="background: #2563eb;">
+            Sign Up <i class="fas fa-user-plus" style="margin-left: 8px;"></i>
+        </button>
+        <div class="modal-footer">
+            Already have an account? <a href="#" onclick="switchToLogin()">Sign in</a>
+        </div>
+    </div>
+</div>
 
-        async function loadEq() {
-            const res = await fetch('http://localhost:3000/api/equipments');
-            const data = await res.json();
-            document.getElementById('eq-grid').innerHTML = data.map(item => `
-                <div class="bg-white p-4 rounded-2xl shadow-sm border hover:border-indigo-400 transition-all cursor-pointer" onclick="selectItem(${item.id}, '${item.name}')">
-                    <div class="w-full h-24 bg-gray-100 rounded-lg mb-3 flex items-center justify-center text-gray-300"><i class="fas fa-dumbbell fa-2x"></i></div>
-                    <h4 class="font-bold">${item.name}</h4>
-                    <p class="text-xs text-gray-400">${item.type}</p>
-                </div>
-            `).join('');
-        }
+<footer>
+    <div class="footer-container">
+        <div class="footer-brand"><h2>💪 SmartQueue</h2><p>จัดการคิวฟิตเนสอัจฉริยะ</p></div>
+        <div class="footer-column"><h4>บริษัท</h4><ul><li><a href="#">เกี่ยวกับเรา</a></li></ul></div>
+        <div class="footer-column"><h4>ช่วยเหลือ</h4><ul><li><a href="contact.html">ติดต่อเรา</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 SmartQueue Fitness. All rights reserved.</p></div>
+</footer>
 
-        function selectItem(id, name) {
-            document.getElementById('sel-id').value = id;
-            document.getElementById('sel-name').innerText = "เลือก: " + name;
-        }
+<script>
+    // --- การจัดการ Modal ---
+    function openLoginModal() { document.getElementById('loginModal').style.display = "flex"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+    function switchToRegister() { closeModal('loginModal'); document.getElementById('registerModal').style.display = "flex"; }
+    function switchToLogin() { closeModal('registerModal'); openLoginModal(); }
+    window.onclick = function(e) { if (e.target.className === 'modal') e.target.style.display = "none"; }
 
-        async function bookNow() {
-            const res = await fetch('http://localhost:3000/api/book', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    user_id: user.id,
-                    equipment_id: document.getElementById('sel-id').value,
-                    start_time: document.getElementById('start').value,
-                    end_time: document.getElementById('end').value
-                })
+    // --- ระบบสมัครสมาชิก ---
+    async function handleModalRegister() {
+        const u = document.getElementById('regUsername').value;
+        const p = document.getElementById('regPassword').value;
+        if (!u || !p) return alert("กรุณากรอกข้อมูลให้ครบ");
+        try {
+            const response = await fetch('http://localhost:3000/api/register', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: u, password: p })
             });
-            const result = await res.json();
-            alert(result.message);
+            const data = await response.json();
+            if (response.ok) { alert("สมัครสำเร็จ! เข้าสู่ระบบได้เลย"); switchToLogin(); }
+            else { alert(data.message); }
+        } catch (e) { alert("⚠️ เซิร์ฟเวอร์ยังไม่ได้เปิด (ลืมรัน node server.js หรือเปล่า?)"); }
+    }
+
+    // --- ระบบล็อกอิน ---
+    async function handleModalLogin() {
+        const u = document.getElementById('modalUsername').value;
+        const p = document.getElementById('modalPassword').value;
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: u, password: p })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                sessionStorage.setItem('user', JSON.stringify(data.user));
+                location.reload(); 
+            } else { alert(data.message); }
+        } catch (e) { alert("⚠️ ติดต่อเซิร์ฟเวอร์ไม่ได้"); }
+    }
+
+    // --- ระบบจองเครื่องเล่น (ใช้งานจริง) ---
+    async function bookEquipment(name) {
+    const userStr = sessionStorage.getItem('user');
+    if (!userStr) {
+        alert("กรุณาล็อกอินก่อนจอง!");
+        openLoginModal();
+        return;
+    }
+    const user = JSON.parse(userStr);
+
+    try {
+        const response = await fetch('http://localhost:3000/api/booking', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                username: user.username, 
+                equipment_name: name 
+            })
+        });
+
+        const res = await response.json();
+
+        if (response.ok) {
+            alert(`✅ ${res.message}`);
+            // อัปเดต UI ตามคิวที่ได้จากเซิร์ฟเวอร์
+            location.reload(); // หรือเขียนฟังก์ชันอัปเดตตัวเลขแบบ Real-time
+        } else {
+            // กรณีชื่อซ้ำ หรือจองซ้ำ
+            alert(`❌ ${res.message}`);
         }
-        loadEq();
-    </script>
+    } catch (e) {
+        // กรณีนี้คือเชื่อมต่อ Server ไม่ได้ (ลืมรัน node server.js)
+        console.error(e);
+        alert("⚠️ เชื่อมต่อเซิร์ฟเวอร์ไม่ได้! กรุณารัน 'node server.js' ก่อนใช้งาน");
+    }
+}
+
+    // ฟังก์ชันช่วยอัปเดตตัวเลขบนหน้าจอทันที (หลอก UI ให้ดูมีคนจองเพิ่ม)
+    function updateQueueUI(equipmentName) {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            if (card.querySelector('h3').innerText.includes(equipmentName)) {
+                let priceTag = card.querySelector('.price');
+                let currentQueue = parseInt(priceTag.innerText.replace(/[^0-9]/g, '')) || 0;
+                priceTag.innerText = `คิวที่ ${currentQueue + 1}`;
+                
+                let statusTag = card.querySelector('.status-tag');
+                statusTag.innerText = "ไม่ว่าง (In Use)";
+                statusTag.style.background = "#f59e0b";
+            }
+        });
+    }
+
+    function handleLogout() { if (confirm("ต้องการออกจากระบบ?")) { sessionStorage.clear(); location.reload(); } }
+
+    window.onload = function() {
+        const userStr = sessionStorage.getItem('user');
+        if (userStr) {
+            const user = JSON.parse(userStr);
+            document.getElementById('userBtn').innerText = 'คุณ ' + user.username;
+            document.getElementById('userBtn').onclick = null;
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+        }
+    }
+</script>
 </body>
 </html>
