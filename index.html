@@ -3,120 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartQueue Fitness</title>
+    <title>SmartQueue Fitness | ยกระดับการออกกำลังกายอัจฉริยะ</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --primary: #2563eb; --navy: #0f172a; --slate: #64748b; --light: #f8fafc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-        body { background-color: var(--light); color: var(--navy); }
+        body { background-color: var(--light); color: var(--navy); overflow-x: hidden; }
 
-        /* --- Navigation --- */
+        /* --- Navigation & Account Dropdown --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.2rem 8%; background: white; position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); cursor: pointer; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--slate); cursor: pointer; }
-
-        /* Account & Dropdown */
+        .nav-links a { text-decoration: none; color: var(--slate); font-weight: 400; transition: 0.3s; cursor: pointer; }
+        .nav-links a.active { color: var(--primary); font-weight: 600; }
+        
         .auth-btns { position: relative; }
-        .btn-user { background: var(--navy); color: white; padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .dropdown-menu { display: none; position: absolute; top: 110%; right: 0; background: white; min-width: 200px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; z-index: 1001; }
-        .dropdown-menu.active { display: block; }
+        .btn-auth { background: var(--navy); color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; display: flex; align-items: center; gap: 8px; }
+        
+        .dropdown-menu { display: none; position: absolute; top: 120%; right: 0; background: white; min-width: 200px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; z-index: 1001; }
+        .dropdown-menu.show { display: block; animation: slideDown 0.3s ease; }
         .dropdown-menu a { display: block; padding: 12px 20px; color: var(--navy); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; }
         .dropdown-menu a:hover { background: var(--light); }
 
-        /* --- Hero --- */
-        .hero { height: 450px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 8%; color: white; }
+        /* --- Hero Section (QuickStay Style) --- */
+        .hero {
+            height: 550px;
+            background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; padding: 0 8%; color: white;
+        }
+        .hero-content h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
+
+        /* --- Page Content Control --- */
+        .page-content { display: none; padding: 80px 8%; animation: fadeIn 0.6s ease; }
+        .page-active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Equipment Grid --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 230px; object-fit: cover; }
+        .status-tag { position: absolute; top: 15px; left: 15px; background: #22c55e; color: white; padding: 6px 16px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+        .card-body { padding: 1.5rem; }
+        .btn-book { width: 100%; padding: 12px; background: var(--light); color: var(--navy); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .btn-book:hover { background: var(--navy); color: white; }
+
+        /* --- Schedule Table --- */
+        .sch-table { width: 100%; border-collapse: collapse; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .sch-table th { padding: 20px; background: var(--navy); color: white; }
+        .sch-table td { padding: 20px; border: 1px solid #f1f5f9; text-align: center; }
+
+        /* --- Reviews (What Our Guests Say) --- */
+        .reviews { text-align: center; margin-top: 80px; }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 50px; }
+        .testi-card { background: white; padding: 2.5rem; border-radius: 25px; text-align: left; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .stars { color: #f59e0b; margin: 10px 0; }
+
+        /* --- Contact Section --- */
+        #contact-section { background: white; border-radius: 30px; padding: 50px; margin-top: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+
+        /* --- Newsletter (Stay Inspired) --- */
+        .newsletter { background: var(--navy); color: white; padding: 60px; border-radius: 30px; text-align: center; margin: 80px 0; }
+        .btn-sub { background: white; color: var(--navy); padding: 12px 30px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; margin-left: 10px; }
 
         /* --- Modals --- */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 40px; border-radius: 25px; width: 100%; max-width: 400px; text-align: center; position: relative; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 5px; outline: none; }
-        .btn-continue { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-        .switch-text { margin-top: 20px; font-size: 0.85rem; color: var(--slate); }
-        .switch-text span { color: var(--primary); font-weight: 600; cursor: pointer; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 40px; border-radius: 30px; width: 100%; max-width: 400px; text-align: center; position: relative; }
+        .input-field { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #e2e8f0; outline: none; }
+        .btn-main { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
 
-        /* --- Contact --- */
-        #contact-section { padding: 80px 8%; background: white; }
+        footer { padding: 80px 8% 40px; border-top: 1px solid #e2e8f0; background: white; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo">💪 SmartQueue</div>
+    <div class="logo" onclick="showPage('equipment')">💪 SmartQueue</div>
     <ul class="nav-links">
-        <li><a onclick="location.reload()">หน้าแรก</a></li>
-        <li><a onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})">ติดต่อเรา</a></li>
+        <li><a id="nav-eq" class="active" onclick="showPage('equipment')">หน้าแรก</a></li>
+        <li><a id="nav-sch" onclick="showPage('schedule')">ตารางสอน</a></li>
+        <li><a onclick="scrollToContact()">ติดต่อเรา</a></li>
     </ul>
     <div class="auth-btns">
         <div id="loggedOut">
-            <button class="btn-user" onclick="openModal('loginModal')">Sign In</button>
+            <button class="btn-auth" onclick="openModal('loginModal')">Sign In</button>
         </div>
         <div id="loggedIn" style="display: none;">
-            <button class="btn-user" onclick="toggleDropdown()">
+            <button class="btn-auth" onclick="toggleDropdown()">
                 <i class="fas fa-user-circle"></i> <span id="displayUser">User</span> <i class="fas fa-chevron-down"></i>
             </button>
             <div id="userDropdown" class="dropdown-menu">
-                <a onclick="alert('ไปหน้าตั้งค่าบัญชี...')"><i class="fas fa-cog"></i> ตั้งค่าบัญชี</a>
-                <a onclick="alert('ประวัติการจอง...')"><i class="fas fa-calendar-check"></i> ประวัติการจอง</a>
-                <a onclick="handleLogout()" style="color: #ef4444;"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
+                <a onclick="alert('กำลังไปหน้าตั้งค่าบัญชี...')"><i class="fas fa-cog"></i> ตั้งค่าบัญชี</a>
+                <a onclick="alert('ประวัติการจองของคุณ')"><i class="fas fa-history"></i> ประวัติการจอง</a>
+                <a onclick="handleLogout()" style="color:#ef4444;"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
             </div>
         </div>
     </div>
 </nav>
 
 <div class="hero">
-    <h1>ยกระดับการออกกำลังกาย<br>ในแบบอัจฉริยะ</h1>
+    <div class="hero-content">
+        <h1>จองฟิตเนสที่สมบูรณ์<br>แบบของคุณได้แล้ววันนี้</h1>
+    </div>
 </div>
 
-<section id="contact-section">
-    <h2>ติดต่อเรา</h2>
-    <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-        <div>
-            <p style="margin-bottom: 15px;"><i class="fab fa-facebook" style="color:#1877f2"></i> <strong>Facebook:</strong> SmartQueueFN</p>
-            <p><i class="fas fa-phone" style="color:#22c55e"></i> <strong>Tel:</strong> 0890912425</p>
+<div id="equipment-page" class="page-content page-active">
+    <h2 style="margin-bottom: 40px;">เครื่องเล่นที่พร้อมใช้งาน</h2>
+    <div class="grid">
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"><div class="card-body"><h3>Treadmill Elite-X</h3><button class="btn-book" onclick="bookEquipment('Treadmill')">จองเครื่องนี้</button></div></div>
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"><div class="card-body"><h3>Smith Machine</h3><button class="btn-book" onclick="bookEquipment('Smith Machine')">จองเครื่องนี้</button></div></div>
+        <div class="card"><span class="status-tag">Available</span><img src="https://images.unsplash.com/photo-1591940742878-13aba4b7a35e?w=500"><div class="card-body"><h3>Rowing Pro</h3><button class="btn-book" onclick="bookEquipment('Rowing Pro')">ใช้งาน</button></div></div>
+    </div>
+
+    <div class="reviews">
+        <h2>What Our Guests Say</h2>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <strong>Emma Rodriguez</strong><br><small>Barcelona, Spain</small>
+                <div class="stars">★★★★★</div>
+                <p>"ระบบจองคิวที่นี่ช่วยให้ชีวิตง่ายขึ้นมาก ไม่ต้องรอนานอีกต่อไป"</p>
+            </div>
+            <div class="testi-card">
+                <strong>Liam Johnson</strong><br><small>New York, USA</small>
+                <div class="stars">★★★★☆</div>
+                <p>"ดีไซน์เว็บสวยงาม ใช้งานง่ายมากครับ แนะนำเลย"</p>
+            </div>
         </div>
     </div>
-</section>
+
+    <div id="contact-section">
+        <div>
+            <h2 style="margin-bottom: 20px;">ติดต่อเรา</h2>
+            <p style="margin-bottom: 10px;"><i class="fab fa-facebook" style="color:#1877f2"></i> <strong>Facebook:</strong> SmartQueueFN</p>
+            <p><i class="fas fa-phone" style="color:#22c55e"></i> <strong>Tel:</strong> 0890912425</p>
+        </div>
+        <div style="background: var(--light); padding: 30px; border-radius: 20px;">
+            <h3>ส่งข้อความด่วน</h3>
+            <input type="text" placeholder="ชื่อของคุณ" class="input-field" style="background:white; margin-top:15px;">
+            <textarea placeholder="ข้อความ..." class="input-field" style="background:white; height:100px; resize:none;"></textarea>
+            <button class="btn-main" onclick="alert('รับข้อมูลเรียบร้อย!')">ส่งข้อมูล</button>
+        </div>
+    </div>
+
+    <div class="newsletter">
+        <h2>Stay Inspired</h2>
+        <p>รับเทคนิคการออกกำลังกายและอัปเดตคลาสใหม่ๆ ก่อนใคร</p>
+        <div style="margin-top:25px;">
+            <input type="email" placeholder="Enter your email" style="padding:12px; border-radius:10px; border:none; width:250px;">
+            <button class="btn-sub">Subscribe →</button>
+        </div>
+    </div>
+</div>
+
+<div id="schedule-page" class="page-content">
+    <h2 style="margin-bottom: 40px;">📅 ตารางเรียนประจำสัปดาห์</h2>
+    <table class="sch-table">
+        <thead><tr><th>เวลา</th><th>จันทร์</th><th>อังคาร</th><th>พุธ</th><th>พฤหัสบดี</th><th>ศุกร์</th></tr></thead>
+        <tbody>
+            <tr><td>08:00</td><td>Yoga</td><td>-</td><td>Yoga</td><td>-</td><td>Yoga</td></tr>
+            <tr><td>18:00</td><td>Cycling</td><td>HIIT</td><td>Cycling</td><td>HIIT</td><td>Cycling</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px;">
+        <div><h2 style="color:var(--primary)">💪 SmartQueue</h2><p>Innovating your fitness journey.</p></div>
+        <div><h4>COMPANY</h4><p>About<br>Careers</p></div>
+        <div><h4>SUPPORT</h4><p>Help Center<br>Contact Us</p></div>
+        <div><h4>SOCIAL</h4><div style="display:flex; gap:15px; margin-top:10px;"><i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i></div></div>
+    </div>
+    <p style="margin-top:50px; border-top:1px solid #f1f5f9; padding-top:20px; font-size:0.8rem; color:var(--slate)">© 2026 SmartQueue Fitness. All rights reserved.</p>
+</footer>
 
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span style="position:absolute; right:20px; top:15px; cursor:pointer;" onclick="closeModal('loginModal')">✕</span>
-        <h2 style="margin-bottom: 25px;">Sign in to SmartQueue</h2>
-        <div class="input-group"><input type="text" id="loginU" placeholder="Username"></div>
-        <div class="input-group"><input type="password" id="loginP" placeholder="Password"></div>
-        <button class="btn-continue" onclick="doLogin()">Continue</button>
-        <p class="switch-text">Don't have an account? <span onclick="openModal('regModal')">สมัครสมาชิกฟรี</span></p>
+        <h2>Sign in to SmartQueue</h2>
+        <input type="text" id="logU" class="input-field" placeholder="Username" style="margin-top:25px;">
+        <input type="password" id="logP" class="input-field" placeholder="Password">
+        <button class="btn-main" onclick="handleLogin()">Continue</button>
+        <p style="margin-top:20px; font-size:0.9rem;">ยังไม่มีบัญชี? <span onclick="openModal('regModal')" style="color:var(--primary); cursor:pointer; font-weight:600;">สมัครสมาชิกฟรี</span></p>
     </div>
 </div>
 
 <div id="regModal" class="modal">
     <div class="modal-content">
         <span style="position:absolute; right:20px; top:15px; cursor:pointer;" onclick="closeModal('regModal')">✕</span>
-        <h2 style="margin-bottom: 25px;">Create Account</h2>
-        <div class="input-group"><input type="text" id="regU" placeholder="เลือก Username"></div>
-        <div class="input-group"><input type="password" id="regP" placeholder="ตั้งรหัสผ่าน"></div>
-        <button class="btn-continue" onclick="doRegister()" style="background: var(--primary);">สมัครสมาชิก</button>
-        <p class="switch-text">มีบัญชีอยู่แล้ว? <span onclick="openModal('loginModal')">เข้าสู่ระบบ</span></p>
+        <h2>Create Account</h2>
+        <input type="text" id="regU" class="input-field" placeholder="เลือก Username" style="margin-top:25px;">
+        <input type="password" id="regP" class="input-field" placeholder="ตั้งรหัสผ่าน">
+        <button class="btn-main" onclick="handleRegister()" style="background:var(--primary)">สมัครสมาชิก</button>
+        <p style="margin-top:20px; font-size:0.9rem;">มีบัญชีอยู่แล้ว? <span onclick="openModal('loginModal')" style="color:var(--navy); cursor:pointer; font-weight:600;">เข้าสู่ระบบ</span></p>
     </div>
 </div>
 
 <script>
-    function openModal(id) {
+    function showPage(page) {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        if(page === 'equipment') {
+            document.getElementById('equipment-page').classList.add('page-active');
+            document.getElementById('nav-eq').classList.add('active');
+        } else {
+            document.getElementById('schedule-page').classList.add('page-active');
+            document.getElementById('nav-sch').classList.add('active');
+        }
+    }
+
+    function scrollToContact() {
+        showPage('equipment');
+        document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openModal(id) { 
         document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-        document.getElementById(id).style.display = 'flex';
+        document.getElementById(id).style.display = 'flex'; 
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function toggleDropdown() { document.getElementById('userDropdown').classList.toggle('active'); }
+    function toggleDropdown() { document.getElementById('userDropdown').classList.toggle('show'); }
 
-    async function doLogin() {
-        const u = document.getElementById('loginU').value;
-        const p = document.getElementById('loginP').value;
+    async function handleLogin() {
+        const u = document.getElementById('logU').value;
+        const p = document.getElementById('logP').value;
         try {
             const res = await fetch('http://localhost:3000/api/login', {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -125,10 +242,10 @@
             const data = await res.json();
             if(res.ok) { sessionStorage.setItem('user', JSON.stringify(data.user)); location.reload(); }
             else alert(data.message);
-        } catch(e) { alert("กรุณารัน server.js ก่อนครับ"); }
+        } catch(e) { alert("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (รัน node server.js หรือยัง?)"); }
     }
 
-    async function doRegister() {
+    async function handleRegister() {
         const u = document.getElementById('regU').value;
         const p = document.getElementById('regP').value;
         try {
@@ -136,9 +253,22 @@
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({username: u, password: p})
             });
-            if(res.ok) { alert("สมัครสำเร็จ! กรุณาล็อกอินครับ"); openModal('loginModal'); }
+            if(res.ok) { alert("สมัครสมาชิกสำเร็จ!"); openModal('loginModal'); }
             else { const d = await res.json(); alert(d.message); }
-        } catch(e) { alert("ระบบสมัครขัดข้อง"); }
+        } catch(e) { alert("เกิดข้อผิดพลาด"); }
+    }
+
+    async function bookEquipment(name) {
+        const user = sessionStorage.getItem('user');
+        if(!user) return openModal('loginModal');
+        try {
+            const res = await fetch('http://localhost:3000/api/booking', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: JSON.parse(user).username, equipment_name: name})
+            });
+            const data = await res.json();
+            alert(data.message);
+        } catch(e) { alert("การจองขัดข้อง"); }
     }
 
     function handleLogout() { sessionStorage.clear(); location.reload(); }
@@ -151,11 +281,7 @@
             document.getElementById('displayUser').innerText = JSON.parse(user).username;
         }
     };
-    
-    // ปิด dropdown เมื่อคลิกที่อื่น
-    window.onclick = function(e) {
-        if (!e.target.closest('.auth-btns')) document.getElementById('userDropdown').classList.remove('active');
-    }
+    window.onclick = function(e) { if (!e.target.closest('.auth-btns')) document.getElementById('userDropdown').classList.remove('show'); }
 </script>
 </body>
 </html>
