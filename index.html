@@ -136,6 +136,17 @@
                 <div class="stars">★★★★☆</div>
                 <p>"ดีไซน์เว็บสวยงาม ใช้งานง่ายมากครับ แนะนำเลย"</p>
             </div>
+            <h2 style="margin-top:60px;">📋 สถานะคิวการใช้งานเครื่อง</h2>
+
+<div style="background:white;padding:25px;border-radius:20px;margin-top:20px;box-shadow:0 5px 15px rgba(0,0,0,0.05);max-width:500px;">
+    <p><strong>คิวปัจจุบัน:</strong> <span id="currentQueue">0</span></p>
+    <p><strong>คิวของคุณ:</strong> <span id="myQueue">-</span></p>
+    <p><strong>จำนวนคนที่รอก่อนหน้า:</strong> <span id="peopleAhead">0</span></p>
+
+    <button onclick="nextQueue()" class="btn-main" style="margin-top:15px;">
+        เรียกคิวถัดไป (Demo)
+    </button>
+</div>
         </div>
     </div>
 
@@ -258,18 +269,28 @@
         } catch(e) { alert("เกิดข้อผิดพลาด"); }
     }
 
-    async function bookEquipment(name) {
-        const user = sessionStorage.getItem('user');
-        if(!user) return openModal('loginModal');
-        try {
-            const res = await fetch('http://localhost:3000/api/booking', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username: JSON.parse(user).username, equipment_name: name})
-            });
-            const data = await res.json();
-            alert(data.message);
-        } catch(e) { alert("การจองขัดข้อง"); }
+    function bookEquipment(name){
+
+    const user = sessionStorage.getItem('user');
+    if(!user){
+        return openModal('loginModal');
     }
+
+    const username = JSON.parse(user).username;
+
+    if(queue.includes(username)){
+        alert("คุณอยู่ในคิวแล้ว");
+        return;
+    }
+
+    queue.push(username);
+
+    localStorage.setItem("fitnessQueue", JSON.stringify(queue));
+
+    alert("จองเครื่องสำเร็จ! คิวของคุณคือ " + queue.length);
+
+    updateQueueUI();
+}
 
     function handleLogout() { sessionStorage.clear(); location.reload(); }
 
@@ -282,6 +303,66 @@
         }
     };
     window.onclick = function(e) { if (!e.target.closest('.auth-btns')) document.getElementById('userDropdown').classList.remove('show'); }
+    // ===== SMART QUEUE SYSTEM =====
+
+let queue = JSON.parse(localStorage.getItem("fitnessQueue")) || [];
+let current = parseInt(localStorage.getItem("currentQueue")) || 1;
+
+function updateQueueUI(){
+
+    const currentEl = document.getElementById("currentQueue");
+    const myEl = document.getElementById("myQueue");
+    const aheadEl = document.getElementById("peopleAhead");
+
+    if(currentEl) currentEl.innerText = current;
+
+    const user = sessionStorage.getItem("user");
+
+    if(!user){
+        if(myEl) myEl.innerText = "-";
+        if(aheadEl) aheadEl.innerText = "0";
+        return;
+    }
+
+    const username = JSON.parse(user).username;
+
+    const position = queue.indexOf(username);
+
+    if(position !== -1){
+
+        if(myEl) myEl.innerText = position + 1;
+        if(aheadEl) aheadEl.innerText = position;
+
+    }else{
+
+        if(myEl) myEl.innerText = "-";
+        if(aheadEl) aheadEl.innerText = "0";
+
+    }
+}
+
+function nextQueue(){
+
+    if(queue.length === 0){
+        alert("ไม่มีคิว");
+        return;
+    }
+
+    queue.shift();
+
+    current++;
+
+    localStorage.setItem("fitnessQueue", JSON.stringify(queue));
+    localStorage.setItem("currentQueue", current);
+
+    updateQueueUI();
+}
+
+// โหลดข้อมูลตอนเปิดเว็บ
+window.addEventListener("load", function(){
+    updateQueueUI();
+});
 </script>
 </body>
 </html>
+
