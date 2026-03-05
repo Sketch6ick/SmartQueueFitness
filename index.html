@@ -234,12 +234,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-    function showPage(page) {
+    window.showPage = function(page){
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('page-active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         if(page === 'equipment') {
@@ -256,14 +252,14 @@ const analytics = getAnalytics(app);
         document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function openModal(id) { 
+    window.openModal = function(id) {
         document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
         document.getElementById(id).style.display = 'flex'; 
     }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function toggleDropdown() { document.getElementById('userDropdown').classList.toggle('show'); }
+   window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; }
+    window.toggleDropdown = function() { document.getElementById('userDropdown').classList.toggle('show'); }
 
-    async function handleLogin() {
+    window.handleLogin = async function() {
         const u = document.getElementById('logU').value;
         const p = document.getElementById('logP').value;
         try {
@@ -277,7 +273,7 @@ const analytics = getAnalytics(app);
         } catch(e) { alert("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (รัน node server.js หรือยัง?)"); }
     }
 
-    async function handleRegister() {
+    window.handleRegister = async function() {
         const u = document.getElementById('regU').value;
         const p = document.getElementById('regP').value;
         try {
@@ -402,7 +398,7 @@ loadQueue();
     updateQueueUI();
 }
 
-    function handleLogout() { sessionStorage.clear(); location.reload(); }
+   window.handleLogout = function() { sessionStorage.clear(); location.reload(); }
 
     window.onload = function() {
         const user = sessionStorage.getItem('user');
@@ -451,7 +447,7 @@ function updateQueueUI(){
     }
 }
 
-function nextQueue(){
+window.nextQueue = function(){
 
     if(queue.length === 0){
         alert("ไม่มีคิว");
@@ -475,6 +471,7 @@ window.addEventListener("load", function(){
 </script>
 </body>
 </html>
+
 
 
 
